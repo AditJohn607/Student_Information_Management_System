@@ -72,7 +72,7 @@ The **Student Information Management System (SIMS)** is a centralized platform t
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript, Bootstrap
+- **Frontend:** HTML, CSS, JavaScript, React, Bootstrap
 - **Backend:** ASP.NET MVC (C#)
 - **ORM:** Entity Framework
 - **Database:** SQL Server
