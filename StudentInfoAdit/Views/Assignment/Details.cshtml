@@ -1,0 +1,135 @@
+﻿@model StudentInfoAdit.Models.AssignmentModel
+
+@{
+    ViewBag.Title = "Assignment Details";
+    string role = (Session["Role"] ?? "").ToString();
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .details-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 30px;
+        margin-bottom: 25px;
+    }
+
+    .detail-row {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #224abe;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-right: 10px;
+        margin-top: 20px;
+    }
+
+    .back-btn {
+        background: #007bff;
+    }
+
+    .download-btn {
+        background: #28a745;
+    }
+
+    .submit-btn {
+        background: #17a2b8;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="details-container">
+
+    <h2 class="page-title">Assignment Details</h2>
+
+    <div class="detail-row">
+        <span class="label">Title:</span>
+        @Model.Title
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Subject:</span>
+        @Model.Subject
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Class:</span>
+        @Model.StudentClass
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Due Date:</span>
+        @Model.DueDate.ToString("dd-MMM-yyyy")
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Created By:</span>
+        @Model.CreatedBy
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Created On:</span>
+        @Model.CreatedDate.ToString("dd-MMM-yyyy hh:mm tt")
+    </div>
+
+    <div class="detail-row">
+        <span class="label">Description:</span>
+        <br /><br />
+        @Model.Description
+    </div>
+
+    <div style="margin-top:20px;">
+
+        @if (!string.IsNullOrEmpty(Model.AttachmentPath))
+        {
+            <a href="@Url.Content(Model.AttachmentPath)"
+               target="_blank"
+               class="btn download-btn">
+                Download Attachment
+            </a>
+        }
+
+        @if (role == "Student")
+        {
+            <a href="@Url.Action("Submit", "Assignment",
+                     new { id = Model.AssignmentId })"
+               class="btn submit-btn">
+                Submit Assignment
+            </a>
+        }
+
+        <a href="@Url.Action("Index", "Assignment")"
+           class="btn back-btn">
+            Back
+        </a>
+
+    </div>
+
+</div>

@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Character Profiles";
+}
+
+<h2 style="text-align:center;">Student / Character Profile</h2>
+
+<div id="root"></div>
+
+<style>
+    body {
+        font-family: Arial;
+        background: #f5f5f5;
+        margin: 20px;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+
+function App() {
+
+    const [characters, setCharacters] = React.useState([]);
+    const [search, setSearch] = React.useState("");
+    React.useEffect(() => {
+        fetch("https://hp-api.onrender.com/api/characters")
+            .then(response => response.json())
+            .then(data => {
+                setCharacters(data);
+            })
+            .catch(error => {
+                console.log(error);
+                alert("API Error: " + error);
+            });
+    }, []);
+
+    const filtered = characters.filter(item =>
+        item.name &&
+        item.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return (
+        <div>
+            <div style={{
+                textAlign: "center",
+                marginBottom: "20px"
+            }}>
+                <input
+                    type="text"
+                    placeholder="Search character..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    style={{
+                        padding: "10px",
+                        width: "250px",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc"
+                    }}
+                />
+            </div>
+
+            <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "20px",
+                justifyContent: "center"
+            }}>
+
+                {filtered.map((item, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            width: "220px",
+                            background: "#ffffff",
+                            padding: "10px",
+                            borderRadius: "10px",
+                            boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
+                            textAlign: "center"
+                        }}
+                    >
+                        <img
+                            src={item.image || "https://via.placeholder.com/220x250?text=No+Image"}
+                            alt={item.name}
+                            style={{
+                                width: "100%",
+                                height: "250px",
+                                objectFit: "cover",
+                                borderRadius: "8px"
+                            }}
+                        />
+
+                        <h3>{item.name}</h3>
+                        <p><b>House:</b> {item.house || "Unknown"}</p>
+                        <p><b>Actor:</b> {item.actor || "Unknown"}</p>
+                    </div>
+                ))}
+
+            </div>
+
+        </div>
+    );
+}
+
+ReactDOM.render(
+    <App />,
+    document.getElementById("root")
+);
+
+</script>

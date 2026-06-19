@@ -1,0 +1,175 @@
+﻿@model StudentInfoAdit.Models.StaffModel
+@{
+    ViewBag.Title = "Staff Form";
+}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        min-height: 100vh;
+    }
+
+    .form-container {
+        width: 500px;
+        margin: 50px auto;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        border: 5px dashed #ffb6c1;
+    }
+
+    h2 {
+        text-align: center;
+        color: #ff4f81;
+        font-size: 32px;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px #ffe066;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: 12px;
+        font-size: 18px;
+        color: #444;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 3px solid #87cefa;
+        border-radius: 12px;
+        font-size: 16px;
+        background: #fdfdfd;
+        transition: 0.3s;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 10px rgba(255,105,180,0.5);
+            background: #fffafc;
+        }
+
+    .btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .btn-success {
+        background: #4caf50;
+        color: white;
+    }
+        .btn-success:hover {
+            background: #43a047;
+            transform: scale(1.05);
+        }
+
+    .btn-secondary {
+        background: #ff7043;
+        color: white;
+        margin-left: 10px;
+    }
+
+        .btn-secondary:hover {
+            background: #f4511e;
+            transform: scale(1.05);
+        }
+
+    tr:hover td {
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 10px;
+    }
+
+    @@media screen and (max-width: 600px) {
+        .form-container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 26px;
+        }
+
+        td {
+            display: block;
+            width: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+<div class="form-container">
+    <h2>Staff Details Form</h2>
+    @using (Html.BeginForm("Save", "Staff", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.StaffId)
+        <table>
+            <tr>
+                <td>Staff Name</td>
+                <td>
+                    @Html.TextBoxFor(m => m.StaffName,
+                        new { @class = "form-control", required = "required" })
+                </td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>
+                    @Html.DropDownListFor(m => m.Role,
+                        new SelectList(new[]
+                        {
+                            "Teacher",
+                            "Principal",
+                            "Clerk",
+                            "Accountant"
+                        }),
+                        "-- Select Role --",
+                        new { @class = "form-control", required = "required" })
+                </td>
+            </tr>
+            <tr>
+                <td>Subject</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Subject,
+                        new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>Date Joined</td>
+                <td>
+                    @Html.TextBoxFor(m => m.DateJoined,
+                        "{0:yyyy-MM-dd}",
+                        new { type = "date", @class = "form-control", required = "required" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit"
+                           value="Save"
+                           class="btn btn-success" />
+                    <a href="/Staff/StaffDetails"
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

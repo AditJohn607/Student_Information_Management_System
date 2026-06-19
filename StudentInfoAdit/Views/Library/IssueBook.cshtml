@@ -1,0 +1,191 @@
+﻿ @model StudentInfoAdit.Models.IssueBookViewModel
+
+@{
+    ViewBag.Title = "Issue Book";
+}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        min-height: 100vh;
+    }
+
+    .form-container {
+        width: 550px;
+        margin: 50px auto;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        border: 5px dashed #ffb6c1;
+    }
+
+    h2 {
+        text-align: center;
+        color: #ff4f81;
+        font-size: 32px;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px #ffe066;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #444;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 3px solid #87cefa;
+        border-radius: 12px;
+        font-size: 16px;
+        background: #fdfdfd;
+        transition: 0.3s;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 10px rgba(255,105,180,0.5);
+            background: #fffafc;
+        }
+
+    .btn-primary {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #4caf50;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-primary:hover {
+            background: #43a047;
+            transform: scale(1.03);
+        }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 2px solid #4caf50;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    @@media screen and (max-width: 600px) {
+        .form-container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 26px;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="form-container">
+
+    <h2>📚 Issue Book</h2>
+
+    @if (TempData["Success"] != null)
+    {
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+    }
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label> Student</label>
+
+        @Html.DropDownListFor(
+                m => m.StudentId,
+                Model.StudentList,
+                "-- Select Student --",
+                new
+                {
+                    @class = "form-control",
+                    id = "StudentId"
+                })
+    </div>
+
+    <div class="form-group">
+        <label>📖 Book</label>
+
+        @Html.DropDownListFor(
+                m => m.BookId,
+                Model.BookList,
+                "-- Select Book --",
+                new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>📅 Due Date</label>
+
+        @Html.TextBoxFor(
+                m => m.DueDate,
+                "{0:yyyy-MM-dd}",
+                new
+                {
+                    @class = "form-control",
+                    type = "date"
+                })
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        📚 Issue Book
+    </button>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#studentSearch").keyup(function () {
+                var value = $(this).val().toLowerCase();
+
+                $("#StudentId option").each(function () {
+
+                    if ($(this).val() == "")
+                        return;
+     
+                    $(this).toggle(
+                        $(this).text().toLowerCase().indexOf(value) > -1
+                    );
+                });
+            });
+        });
+    </script>
+}

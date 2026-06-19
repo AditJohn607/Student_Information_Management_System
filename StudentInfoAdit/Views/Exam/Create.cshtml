@@ -1,0 +1,102 @@
+﻿@model StudentInfoAdit.Models.ExamModel
+
+@{
+    ViewBag.Title = "Create Exam";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .create-container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+    }
+
+    .btn-save {
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-back {
+        background: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="create-container">
+
+    <h2 class="page-title">Create Exam</h2>
+
+    @using (Html.BeginForm())
+    {
+        <div class="form-group">
+            <label>Exam Name</label>
+            @Html.TextBoxFor(x => x.ExamName,
+                new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>Exam Date</label>
+            @Html.TextBoxFor(x => x.ExamDate,
+                "{0:yyyy-MM-dd}",
+                new
+                {
+                    @type = "date",
+                    @class = "form-control"
+                })
+        </div>
+
+        <div class="form-group">
+            <label>Student Class</label>
+            @Html.TextBoxFor(x => x.StudentClass,
+                new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn-save">
+            Create Exam
+        </button>
+
+        <a href="@Url.Action("Index")"
+           class="btn-back">
+            Back
+        </a>
+    }
+</div>

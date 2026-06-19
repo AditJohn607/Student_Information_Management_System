@@ -1,0 +1,114 @@
+﻿@model StudentInfoAdit.Models.TimetableModel
+
+@{
+    ViewBag.Title = "Add Timetable";
+}
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f4f6f9;
+    }
+
+    .form-container {
+        width: 500px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #2e7d32;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        outline: none;
+    }
+
+        input:focus, select:focus {
+            border-color: #43a047;
+            box-shadow: 0 0 5px rgba(67,160,71,0.3);
+        }
+
+    .btn {
+        width: 100%;
+        margin-top: 20px;
+        padding: 12px;
+        background: linear-gradient(135deg, #43a047, #cddc39);
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        text-decoration: none;
+        color: #555;
+    }
+</style>
+
+<div class="form-container">
+
+    <h2>📅 Add Timetable Entry</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <label>Class</label>
+        @Html.DropDownListFor(m => m.Class,
+            (List<SelectListItem>)ViewBag.ClassList,
+            "Select Class")
+
+        <label>Day (Mon–Fri)</label>
+        @Html.DropDownListFor(m => m.DayOfWeek,
+            (List<SelectListItem>)ViewBag.Days,
+            "Select Day")
+
+        <label>Period No</label>
+        @Html.TextBoxFor(m => m.PeriodNo, new { type = "number", min = "1", max = "8" })
+
+        <label>Subject</label>
+        @Html.TextBoxFor(m => m.Subject)
+
+        <label>Teacher Name</label>
+        @Html.TextBoxFor(m => m.TeacherName)
+
+        <label>Start Time</label>
+        @Html.TextBoxFor(m => m.StartTime, new { type = "time" })
+
+        <label>End Time</label>
+        @Html.TextBoxFor(m => m.EndTime, new { type = "time" })
+
+        <button type="submit" class="btn">Save Timetable</button>
+    }
+
+    <a href="@Url.Action("Index","Timetable")" class="back-link">
+        ← Back to Timetable
+    </a>
+
+</div>

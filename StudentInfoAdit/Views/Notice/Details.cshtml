@@ -1,0 +1,49 @@
+﻿@model StudentInfoAdit.Models.NoticeModel
+ 
+<style>
+    .notice-box {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 25px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        font-family: Arial;
+    }
+
+    .notice-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #007cba;
+        margin-bottom: 10px;
+    }
+
+    .notice-meta {
+        font-size: 13px;
+        color: #777;
+        margin-bottom: 20px;
+    }
+
+    .notice-content {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+</style>
+
+<div class="notice-box">
+
+    <div class="notice-title">@Model.Title</div>
+
+    <div class="notice-meta">
+        Published: @Model.PublishDate.ToString("dd-MM-yyyy")
+        <br />
+        Expiry: @(Model.ExpiryDate.HasValue ? Model.ExpiryDate.Value.ToString("dd-MM-yyyy") : "N/A")
+        <br />
+        Created By: @Model.CreatedBy
+    </div>
+
+    <div class="notice-content">
+        @Model.Description
+    </div>
+
+</div>

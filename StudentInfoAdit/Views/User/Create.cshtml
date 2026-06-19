@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Create User";
+}
+
+<style>
+    .user-container {
+        max-width: 500px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: Arial;
+    }
+
+    .user-title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+        .form-control:focus {
+            border-color: #43a047;
+            outline: none;
+            box-shadow: 0 0 5px rgba(67,160,71,0.3);
+        }
+
+    .user-btn {
+        background: linear-gradient(135deg, #43a047, #cddc39);
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .user-btn:hover {
+            background: #2e7d32;
+        }
+
+    .error-box {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+</style>
+
+<div class="user-container">
+
+    <h2 class="user-title">Create User</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="error-box">
+            @ViewBag.Error
+        </div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <select name="role" class="form-control">
+                <option value="Teacher">Teacher</option>
+                <option value="Parent">Parent</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="submit"
+                   value="Create User"
+                   class="user-btn" />
+        </div>
+    }
+
+</div>

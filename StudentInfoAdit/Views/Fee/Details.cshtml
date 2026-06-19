@@ -1,0 +1,213 @@
+﻿@model StudentInfoAdit.Models.FeeViewModel
+
+@{
+    ViewBag.Title = "Fee Details";
+}
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f4f6f9;
+    }
+
+    .container-box {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 25px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+   
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .paid {
+        background: green;
+    }
+
+    .pending {
+        background: red;
+    }
+
+    .btn {
+        background: #28a745;
+        color: white;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background: #218838;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table th {
+            background: #224abe;
+            color: white;
+            padding: 10px;
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+</style>
+
+<div class="container-box">
+
+    <div class="title"> Fee Details </div>
+
+    <div class="card grid">
+
+        <div>
+            <h3>Student Info</h3>
+            <p><b>Name:</b> @Model.Student.StudentName</p>
+            <p><b>Class:</b> @Model.Student.StudentClass</p>
+        </div>
+
+        <div>
+            <h3>Fee Summary</h3>
+
+            @if (Model.Fee != null)
+            {
+                <p><b>Total Fee:</b> @Model.Fee.TotalFee</p>
+                <p><b>Total Paid:</b> @Model.TotalPaid</p>
+                <p><b>Balance:</b> @Model.Balance</p>
+
+                if (Model.Balance <= 0)
+                {
+                    <span class="badge paid">PAID</span>
+                }
+                else
+                {
+                    <span class="badge pending">PENDING</span>
+                }
+            }
+            else
+            {
+                <p style="color:red;">
+                    No fee structure has been created for this student.
+                </p>
+            }
+        </div>
+
+    </div>
+    @if (Model.Fee != null)
+{
+    <div class="card">
+
+        <h3>Add Payment</h3>
+
+        @using (Html.BeginForm("AddPayment", "Fee", FormMethod.Post))
+        {
+            <input type="hidden"
+                   name="feeId"
+                   value="@Model.Fee.FeeId" />
+
+            <label>Amount</label>
+            <input type="number"
+                   name="amountPaid"
+                   class="form-control"
+                   required />
+
+            <label>Payment Mode</label>
+            <select name="paymentMode" class="form-control">
+                <option>Cash</option>
+                <option>UPI</option>
+                <option>Card</option>
+            </select>
+
+            <button type="submit" class="btn">
+                Add Payment
+            </button>
+        }
+
+    </div>
+}
+
+    <div class="card">
+
+        <h3>Payment History</h3>
+
+        @if (Model.Payments != null && Model.Payments.Count > 0)
+        {
+            <table>
+                <tr>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Mode</th>
+                    <td> Receipt</td>
+                </tr>
+
+                @foreach (var p in Model.Payments)
+{
+    <tr>
+
+        <td>@p.AmountPaid</td>
+
+        <td>
+            @(p.PaymentDate.HasValue
+                ? p.PaymentDate.Value.ToString("dd-MM-yyyy")
+                : "")
+        </td>
+
+        <td>@p.PaymentMode</td>
+
+        <td>
+            <a href="@Url.Action(
+                        "Receipt",
+                        "Fee",
+                        new { paymentId = p.PaymentId })">
+                View Receipt
+            </a>
+        </td>
+
+    </tr>
+}
+            </table>
+        }
+        else
+        {
+            <p>No payments found.</p>
+        }
+    </div>
+</div>

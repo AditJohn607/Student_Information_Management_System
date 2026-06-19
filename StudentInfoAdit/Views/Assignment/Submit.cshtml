@@ -1,0 +1,147 @@
+﻿@model StudentInfoAdit.Models.AssignmentModel
+
+@{
+    ViewBag.Title = "Submit Assignment";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .submit-container {
+        max-width: 650px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 30px;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+
+    .detail-box {
+        background: #f8f9fa;
+        border-left: 5px solid #224abe;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+    }
+
+        .detail-box p {
+            margin: 8px 0;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    .btn {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .submit-btn {
+        background: #28a745;
+    }
+
+    .back-btn {
+        background: #007bff;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="submit-container">
+
+    <h2 class="page-title">Submit Assignment</h2>
+
+    @{
+        var submission =
+            ViewBag.ExistingSubmission as StudentInfoAdit.Models.AssignmentSubmissionModel;
+    }
+
+    @if (submission != null)
+    {
+        <div style="background:#e8f5e9;
+                padding:15px;
+                border-radius:8px;
+                margin-bottom:20px;">
+
+            <h4>Previously Submitted Assignment</h4>
+
+            <p>
+                Submitted On:
+                @submission.SubmissionDate.ToString("dd-MMM-yyyy HH:mm")
+            </p>
+
+            <a href="@Url.Content(submission.FilePath)"
+               target="_blank"
+               class="btn btn-success">
+                <div style="color: #2c009a;">Preview submitted file</div></a>
+        </div>
+    }
+
+    <div class="detail-box">
+        <p><strong>Title:</strong> @Model.Title</p>
+        <p><strong>Subject:</strong> @Model.Subject</p>
+        <p><strong>Due Date:</strong> @Model.DueDate.ToString("dd-MMM-yyyy")</p>
+    </div>
+
+    @using (Html.BeginForm("Submit",
+                           "Assignment",
+                           FormMethod.Post,
+                           new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("AssignmentId", Model.AssignmentId)
+ 
+        <div class="form-group">
+            <label>Select Assignment File</label>
+            <input type="file"
+                   name="SubmissionFile"
+                   class="form-control"
+                   required />
+        </div>
+                                                            
+        <div>
+            <input type="submit"
+                   value="Submit Assignment"
+                   class="btn submit-btn" />
+            
+            <a href="@Url.Action("Details",
+                                 "Assignment",
+                                 new { id = Model.AssignmentId })"
+               class="btn back-btn">
+                Back
+            </a>
+        </div>
+    }
+</div>

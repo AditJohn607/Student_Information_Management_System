@@ -1,0 +1,195 @@
+﻿@model StudentInfoAdit.Models.ExamViewModel
+
+@{
+    ViewBag.Title = "Student Result";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .result-container {
+        max-width: 1000px;
+        margin: 40px auto;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .info-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+
+        .info-box p {
+            margin: 8px 0;
+        }
+
+    .result-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+
+        .result-table th {
+            background: linear-gradient(135deg,#43a047,#cddc39);
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .result-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+    .summary-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+
+    .grade {
+        font-size: 26px;
+        font-weight: bold;
+        color: green;
+    }
+
+    .btn-back {
+        background: #007bff;
+        color: white;
+        padding: 10px 18px;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+
+    .top-buttons {
+        text-align: right;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="result-container">
+
+    <h2 class="page-title">
+        Student Report Card
+    </h2>
+
+    <div class="top-buttons">
+
+        <a href="@Url.Action("Index","Exam")"
+           class="btn-back">
+            Back
+        </a>
+
+    </div>
+
+    <div class="info-box">
+
+        <h4>Student Information</h4>
+
+        <p>
+            <strong>Student ID :</strong>
+            @Model.Student.StudentId
+        </p>
+
+        <p>
+            <strong>Name :</strong>
+            @Model.Student.StudentName
+        </p>
+
+        <p>
+            <strong>Class :</strong>
+            @Model.Student.StudentClass
+        </p>
+
+    </div>
+
+    <div class="info-box">
+
+        <h4>Exam Information</h4>
+
+        <p>
+            <strong>Exam ID :</strong>
+            @Model.Exam.ExamId
+        </p>
+
+        <p>
+            <strong>Exam Name :</strong>
+            @Model.Exam.ExamName
+        </p>
+
+        <p>
+            <strong>Exam Date :</strong>
+            @Model.Exam.ExamDate.ToString("dd-MMM-yyyy")
+        </p>
+
+    </div>
+
+    <table class="result-table">
+
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Marks Obtained</th>
+                <th>Maximum Marks</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model.Results)
+            {
+                <tr>
+
+                    <td>@item.Subject</td>
+
+                    <td>@item.MarksObtained</td>
+
+                    <td>@item.MaxMarks</td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+    <div class="summary-box">
+
+        <p>
+            <strong>Total Obtained :</strong>
+            @Model.Results.Sum(x => x.MarksObtained)
+        </p>
+
+        <p>
+            <strong>Total Maximum :</strong>
+            @Model.Results.Sum(x => x.MaxMarks)
+        </p>
+
+        <p>
+            <strong>Percentage :</strong>
+            @String.Format("{0:0.00}", Model.Percentage) %
+        </p>
+
+        <p class="grade">
+            Grade : @Model.Grade
+        </p>
+
+    </div>
+
+</div>

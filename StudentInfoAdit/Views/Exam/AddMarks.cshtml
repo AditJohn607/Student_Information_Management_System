@@ -1,0 +1,168 @@
+﻿@model IEnumerable<StudentInfoAdit.Models.StudentModel>
+
+@{
+    ViewBag.Title = "Add Marks";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .container-box {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .exam-info {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    }
+
+    .student-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    }
+
+        .student-table th {
+            background: linear-gradient(135deg,#43a047,#cddc39);
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .student-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .student-table tr:hover {
+            background: #f5f8ff;
+        }
+ 
+    .btn-marks {
+        background: #28a745;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .btn-result {
+        background: #007bff;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+</style>
+
+<div class="container-box">
+
+    <h2 class="page-title">
+        Add Marks
+    </h2>
+    <p>Total Students Found: @Model.Count()</p>
+    <p>Exam Class: @ViewBag.Exam.StudentClass</p>
+
+    <div class="exam-info">
+
+        <h4>
+            @ViewBag.Exam.ExamName
+        </h4>
+
+        <p>
+            <strong>Class:</strong>
+            @ViewBag.Exam.StudentClass
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            @ViewBag.Exam.ExamDate.ToString("dd-MMM-yyyy")
+        </p>
+
+    </div>
+
+    <table class="student-table">
+
+        <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Add Marks</th>
+                <th>View Result</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var student in Model)
+            {
+                <tr>
+
+                    <td>@student.StudentId</td>
+
+                    <td>@student.StudentName</td>
+
+                    <td>@student.StudentClass</td>
+
+                    <td>
+
+                        <a href="@Url.Action(
+                                "SaveMarks",
+                                "Exam",
+                                new
+                                {
+                                    examId =
+                                    ViewBag.Exam.ExamId,
+
+                                    studentId =
+                                    student.StudentId
+                                })"
+                           class="btn-marks">
+
+                            Add Marks
+
+                        </a>
+
+                    </td>
+
+                    <td>
+
+                        <a href="@Url.Action(
+                                "ViewResult",
+                                "Exam",
+                                new
+                                {
+                                    examId =
+                                    ViewBag.Exam.ExamId,
+
+                                    studentId =
+                                    student.StudentId
+                                })"
+                           class="btn-result">
+
+                            View Result
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

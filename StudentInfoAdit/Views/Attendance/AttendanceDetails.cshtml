@@ -1,0 +1,301 @@
+﻿@model StudentInfoAdit.Models.AttendanceModel
+
+@{
+    ViewBag.Title = "Attendance Module";
+}
+
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+
+    .module-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 25px;
+    }
+
+    .attendance-card {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        margin-bottom: 30px;
+    }
+
+        .attendance-card label {
+            font-weight: bold;
+        }
+
+    .form-control {
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .btn-attendance {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-attendance:hover {
+            background-color: #218838;
+            color: white;
+        }
+
+    .section-title {
+        color: #224abe;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .attendance-table {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    }
+
+        .attendance-table thead {
+            background-color: #4e73df;
+            color: white;
+        }                                                   
+
+        .attendance-table tbody tr:hover {
+            background-color: #f1f5ff;
+        }
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;                       
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 5px;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 5px;
+    }
+
+    .search-box {
+        margin-bottom: 20px;
+    }
+
+    .checkbox-label {
+        font-size: 16px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="module-title">
+        📋 Attendance Module
+    </h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="error-message">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="attendance-card">
+
+        <h4>Mark Student Attendance</h4>
+
+        <hr style="border-color:white;" />
+
+        @using (Html.BeginForm("SaveAttendance",
+                               "Attendance",
+                               FormMethod.Post))
+        {
+            <div class="form-group">
+
+                <label>Select Student</label>
+
+                @Html.DropDownListFor(
+                    m => m.StudentId,
+                    new SelectList(
+                        ViewBag.StudentList,
+                        "StudentId",
+                        "StudentName"),
+                    "-- Select Student --",
+                    new
+                    {
+                        @class = "form-control",
+                        required = "required"
+                    })
+            </div>
+
+            <div class="form-group">
+
+                <label>Attendance Date</label>
+
+                @Html.TextBoxFor(
+                    m => m.AttendanceDate,
+                    "{0:yyyy-MM-dd}",
+                    new
+                    {
+                        @class = "form-control",
+                        type = "date",
+                        required = "required"
+                    })
+            </div>
+            <div class="form-group">
+
+                <label>In Time</label>
+
+                @Html.TextBoxFor(
+                    m => m.InTime,
+                    new
+                    {
+                        @class = "form-control",
+                        type = "time"
+                    })
+            </div>
+
+            <div class="form-group">
+
+                <label>Out Time</label>
+
+                @Html.TextBoxFor(
+                    m => m.OutTime,
+                    new
+                    {
+                        @class = "form-control",
+                        type = "time"
+                    })
+            </div>
+
+            <div class="form-group">
+
+                <label class="checkbox-label">
+
+                    @Html.CheckBoxFor(
+                        m => m.IsPresent)
+                    Present
+                </label>
+            </div>
+
+            <button type="submit"
+                    class="btn-attendance">
+                ✓ Save Attendance
+            </button>
+        }
+
+    </div>
+
+    <h3 class="section-title">
+        📊 Attendance Records
+    </h3>
+
+    @using (Html.BeginForm(
+        "AttendanceDetails",
+        "Attendance",
+        FormMethod.Get))
+    {
+        <div class="search-box">
+
+            <input type="text"
+                   name="searchName"
+                   class="form-control"
+                   placeholder="Search Student Name..."
+                   style="width:300px;
+                          display:inline-block;" />
+
+            <button type="submit"
+                    class="btn-attendance">
+                Search
+            </button>
+
+        </div>
+    }
+
+    <div class="attendance-table">
+
+        <table class="table table-bordered table-hover mb-0">
+
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>In Time</th>
+                    <th>Out Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+         
+            <tbody>
+
+                @if (ViewBag.AttendanceList != null)
+                {
+                    foreach (var item in ViewBag.AttendanceList)
+                    {
+                        <tr>
+
+                            <td>
+                                @item.StudentId
+                            </td>
+
+                            <td>
+                                @item.StudentName
+                            </td>
+
+                            <td>
+                                @Convert.ToDateTime(
+                                    item.AttendanceDate)
+                            </td>
+                            <td>
+                                @item.InTime
+                            </td>
+                            <td>
+                                @item.OutTime
+                            </td>
+                            <td>
+                                @if (item.IsPresent)
+                                {
+                                    <span class="badge-success">
+                                        Present
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-danger">
+                                        Absent
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6"
+                            class="text-center">
+                            No attendance records found.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

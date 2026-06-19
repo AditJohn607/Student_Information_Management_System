@@ -1,0 +1,174 @@
+﻿@model StudentInfoAdit.Models.TimetableGridViewModel
+
+@{
+    ViewBag.Title = "Timetable";
+    string role = (Session["Role"] ?? "").ToString();
+}
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f4f6f9;
+    }
+
+    .container-box {
+        width: 95%;
+        margin: 30px auto;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2e7d32; 
+        margin-bottom: 20px;
+    }
+
+    .top-bar {
+        text-align: right;
+        margin-bottom: 15px;
+    }
+
+    .top-bar2 {
+        text-align: left;
+        margin-bottom: 15px;
+    }           
+                    
+    .btn-add {
+        padding: 10px 15px;
+        background: linear-gradient(135deg, #43a047, #cddc39);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn-add:hover {
+        transform: scale(1.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th {
+        background: linear-gradient(135deg, #43a047, #cddc39);
+        color: white;
+        padding: 12px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+
+    tr:hover {
+        background: #f1f8e9;
+    }
+
+    .subject {
+        font-weight: bold;
+        color: #2e7d32;
+    }
+
+    .teacher {
+        font-size: 12px;
+        color: #555;
+    }
+
+    .empty {
+        color: #aaa;
+    }
+ 
+    @@media (max-width: 768px) {
+        table {
+            font-size: 12px;
+        }
+    }
+</style>
+
+<div class="top-bar2">
+    <a href="@Url.Action("ERP","Dashboard")" class="btn-add">
+        Back to Home
+    </a>
+</div>
+
+<div class="container-box">
+
+    <h2>📅 Weekly Timetable</h2>
+    <div style="margin-bottom:20px; text-align:center;">
+
+        @using (Html.BeginForm("Index", "Timetable", FormMethod.Get))
+        {
+            <label style="font-weight:bold; margin-right:10px;">
+                Select Class:
+            </label>
+
+            @Html.DropDownList(
+            "selectedClass",
+            (List<SelectListItem>)ViewBag.ClassList,
+            new
+            {
+                onchange = "this.form.submit();",
+                style = "padding:8px; border-radius:5px;"
+            })
+        }
+    </div>
+
+    @if (role == "Admin")
+    {
+        <div class="top-bar">
+            <a href="@Url.Action("Create","Timetable")" class="btn-add">
+                + Add Timetable
+            </a>
+        </div>
+    }
+
+    <table>
+        <tr>
+            <th>Period</th>
+
+            @foreach (var day in Model.Days)
+            {
+                <th>@day</th>
+            }
+        </tr>
+
+        @foreach (var period in Model.Periods)
+        {
+            <tr>
+                <td><b>Period @period</b></td>
+
+                @foreach (var day in Model.Days)
+                {
+                    string key = day + "-" + period;
+
+                    <td>
+                        @if (Model.GridData.ContainsKey(key))
+                        {
+                            <div class="subject">
+                                @Model.GridData[key].Subject
+                            </div>
+                            <div class="teacher">
+                                @Model.GridData[key].TeacherName
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="empty">-</span>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>

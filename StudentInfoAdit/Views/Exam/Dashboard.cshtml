@@ -1,0 +1,289 @@
+﻿@{
+    ViewBag.Title = "Exam Analytics Dashboard";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial, sans-serif;
+    }
+
+    .dashboard-container {
+        width: 95%;
+        margin: 30px auto;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .top-bar {
+        text-align: right;
+        margin-bottom: 20px;
+    }
+
+    .back-btn {
+        background: #007bff;
+        color: white;
+        padding: 10px 18px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .cards {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        flex: 1;
+        min-width: 220px;
+        background: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+        .card h2 {
+            margin: 0;
+            color: #224abe;
+        }
+
+        .card p {
+            margin-top: 10px;
+            color: #666;
+            font-weight: bold;
+        }
+
+    .charts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+        gap: 25px;
+    }
+
+    .chart-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .chart-title {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #224abe;
+        font-weight: bold;
+    }
+
+    canvas {
+        max-height: 350px;
+    }
+
+    @@media(max-width:768px) {
+        .cards {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+
+    <h2 class="page-title">
+        Exam Analytics Dashboard
+    </h2>
+
+    <div class="top-bar">
+        <a href="@Url.Action("Index","Exam")"
+           class="back-btn">
+            Back               
+        </a>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>@ViewBag.TotalStudents</h2>
+            <p>Total Students</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.TotalExams</h2>
+            <p>Total Exams</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.PassCount</h2>
+            <p>Pass Count</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.FailCount</h2>
+            <p>Fail Count</p>
+        </div>
+
+        <div class="card">
+            <h2>
+                @String.Format("{0:0.00}",
+                ViewBag.AveragePercentage)
+                %
+            </h2>
+            <p>Average Percentage</p>
+        </div>
+
+    </div>
+
+    <div class="charts">
+
+        <div class="chart-box">
+            <div class="chart-title">
+                Subject Wise Average Marks
+            </div>
+
+            <canvas id="subjectChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <div class="chart-title">
+                Pass vs Fail
+            </div>
+
+            <canvas id="passFailChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <div class="chart-title">
+                Top 5 Students
+            </div>
+
+            <canvas id="topperChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    var subjectCtx =
+        document.getElementById('subjectChart')
+                .getContext('2d');
+
+    new Chart(subjectCtx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels:
+            @Html.Raw(
+                Json.Encode(
+                    ViewBag.SubjectNames
+                )
+            ),
+
+            datasets: [{
+
+                label: 'Average Marks',
+
+                data:
+                @Html.Raw(
+                    Json.Encode(
+                        ViewBag.SubjectAverages
+                    )
+                ),
+
+                backgroundColor:
+                    'rgba(54,162,235,0.7)'
+
+            }]
+        },
+
+        options: {
+            responsive: true
+        }
+
+    });
+
+
+
+    var passFailCtx =
+        document.getElementById('passFailChart')
+                .getContext('2d');
+
+    new Chart(passFailCtx, {
+
+        type: 'pie',
+
+        data: {
+
+            labels: ['Pass','Fail'],
+
+            datasets: [{
+
+                data: [
+                    @ViewBag.PassCount,
+                    @ViewBag.FailCount
+                ],
+
+                backgroundColor: [
+                    'green',
+                    'red'
+                ]
+            }]
+        }
+
+    });
+
+
+
+    var topperCtx =
+        document.getElementById('topperChart')
+                .getContext('2d');
+
+    new Chart(topperCtx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels:
+            @Html.Raw(
+                Json.Encode(
+                    ViewBag.TopperNames
+                )
+            ),
+
+            datasets: [{
+
+                label: 'Total Marks',
+
+                data:
+                @Html.Raw(
+                    Json.Encode(
+                        ViewBag.TopperMarks
+                    )
+                ),
+
+                backgroundColor:
+                    'orange'
+
+            }]
+        },
+
+        options: {
+            responsive: true
+        }
+
+    });
+
+</script>

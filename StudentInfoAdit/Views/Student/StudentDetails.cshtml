@@ -1,0 +1,230 @@
+﻿@model StudentInfoAdit.Models.StudentViewModel
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #d0b9ea;
+        color: black;
+    }
+
+    .form-container {
+        width: 90%;
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    h2, h3 {
+        text-align: center;
+        color: #224abe;
+        font-weight: bold;
+    }
+
+    .form-container form {
+        background: linear-gradient(135deg, #60b06e, #35641b);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        color: white;
+    }
+
+    form table {
+        width: 100%;
+    }
+
+    form td {
+        padding: 10px;
+    }
+
+        form td:first-child {
+            font-weight: bold;
+            width: 160px;
+        }
+
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        background: white;
+        border-radius: 8px;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    input[type="submit"] {
+        background: #000000;
+        color: white;
+    }
+
+    input[type="reset"] {
+        background: black;
+        color: white;
+    }
+
+    h3 {
+        margin-top: 30px;
+    }
+
+    .student-table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        background: white;
+    }
+
+        .student-table th {
+            background: #4e73df;
+            color: black;
+            padding: 12px;
+        }
+
+        .student-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .student-table tr:hover {
+            background: #f1f5ff;
+        }
+
+        .student-table a {
+            color: #682da4;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+            .student-table a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<div class="form-container">
+
+    <h2>Student Form</h2>
+
+    @using (Html.BeginForm("Save", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.Student.StudentId)
+
+        <table>
+
+            <tr>
+                <td>Student Name</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Student.StudentName)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Date of Birth</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Student.DateOfBirth, new { type = "date" })
+                </td>
+            </tr>
+
+            <tr>
+                <td>Address</td>
+                <td>
+                    @Html.TextAreaFor(m => m.Student.PresentAddress)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Class</td>
+                <td>
+                    @Html.DropDownListFor(m => m.Student.StudentClass, Model.ClassList, "Select Class")
+                </td>
+            </tr>
+
+            <tr>
+                <td>Mobile Number</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Student.MobileNumber)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Student Document (Image)</td>
+                <td>
+                    <input type="file" name="PhotoFile" accept="image/*" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Save" />
+                    <input type="reset" value="Clear" />
+                </td>
+            </tr>
+
+        </table>
+    }
+
+    <hr />
+
+    <h3>Student List</h3>
+
+    <table class="student-table">
+
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Class</th>
+            <th>Mobile</th>
+            <th>Document</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model.StudentList)
+        {
+            <tr>
+
+                <td>@item.StudentId</td>
+                <td>@item.StudentName</td>
+                <td>@(item.DateOfBirth.HasValue ? item.DateOfBirth.Value.ToShortDateString() : "")</td>
+                <td>@item.StudentClass</td>
+                <td>@item.MobileNumber</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.PhotoPath))
+                    {
+                        <a href="@item.PhotoPath" target="_blank">View Image</a>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.StudentId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.StudentId }) |
+                    @Html.ActionLink("Parent Details", "ParentDetails", new { id = item.StudentId })
+                </td>
+            </tr>
+        }
+    </table>
+    @if (TempData["Error"] != null)
+    {
+        <div style="color:red;">
+            @TempData["Error"]
+        </div>
+    }
+</div>

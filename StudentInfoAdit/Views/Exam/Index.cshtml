@@ -1,0 +1,164 @@
+﻿@model IEnumerable<StudentInfoAdit.Models.ExamModel>
+
+@{
+    ViewBag.Title = "Exam Management";
+    string role = (Session["Role"] ?? "").ToString();
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .container-box {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .top-buttons {
+        text-align: right;
+        margin-bottom: 20px;
+    }
+
+    .btn-custom {
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    .create-btn {
+        background: #17a2b8;
+    }
+
+    .dashboard-btn {
+        background: #28a745;
+    }
+
+    .home-btn {
+        background: #ff3e00;
+    }
+
+    .exam-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+
+        .exam-table th {
+            background: linear-gradient(135deg,#43a047,#cddc39);
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .exam-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .exam-table tr:hover {
+            background: #f5f8ff;
+        }
+
+    .action-link {
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="container-box">
+
+    <h2 class="page-title">
+        Exam Management System
+    </h2>
+
+    <div class="top-buttons">
+
+        <a href="@Url.Action("Create","Exam")"
+           class="btn-custom create-btn">
+            + Create Exam
+        </a>
+
+        <a href="@Url.Action("Dashboard","Exam")"
+           class="btn-custom dashboard-btn">
+            View analytics
+        </a>
+            @if (role == "Admin")
+            {
+        <a href="@Url.Action("ERP","Dashboard")"
+           class="btn-custom home-btn">
+            Home<-
+        </a>}
+            
+          @if (role == "Teacher")
+          {
+        <a href="@Url.Action("Teacher","Dashboard")"
+       class="btn-custom home-btn">
+        Home<-
+        </a>}
+        
+        @if (role == "Parent")
+        {
+    <a href="@Url.Action("Parents","Dashboard")"
+       class="btn-custom home-btn">
+        Home<-
+    </a>}  
+
+    </div>
+
+    <table class="exam-table">
+
+        <thead>
+            <tr>
+                <th>Exam Id</th>
+                <th>Exam Name</th>
+                <th>Exam Date</th>
+                <th>Class</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ExamId</td>
+                    <td>@item.ExamName</td>
+                    <td>
+                        @item.ExamDate.ToString("dd-MMM-yyyy")
+                    </td>
+                    <td>@item.StudentClass</td>
+                    <td>
+                        <a class="action-link"
+                           href="@Url.Action("AddMarks",
+       "Exam",
+       new { id = item.ExamId })">
+                            Add Marks
+                        </a>
+                        <a class="action-link"
+                           href="@Url.Action("Delete",
+       "Exam",
+       new { id = item.ExamId })"
+                           onclick="return confirm('Delete this exam?');">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

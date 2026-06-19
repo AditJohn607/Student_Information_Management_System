@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #43a047, #cddc39);
+    
+    .login-wrapper {
+        display: flex;
+        width: 850px;
+        height: 500px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
+
+    .left-panel {
+        flex: 1;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+        color: #3e2a19;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .left-panel h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .left-panel p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+    .school-badge {
+        margin-top: 30px;
+        font-size: 13px;
+        opacity: 0.9;
+    }
+
+    .right-panel {
+        flex: 1;
+        background: #fff;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .right-panel h2 {
+            text-align: center;
+            font-size: 26px;
+            color: #43a047; 
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #444;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    input:focus {
+        border-color: #cddc39; 
+        box-shadow: 0 0 6px rgba(205,220,57,0.4);
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #43a047, #cddc39);
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+    .login-btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .error {
+        color: red;
+        font-size: 13px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .footer {
+        margin-top: 15px;
+        font-size: 11px;
+        text-align: center;
+        color: #888;
+    }
+</style>
+
+<div class="login-wrapper">
+
+    <div class="left-panel">
+        <h1>School Portal</h1>
+        <p>
+            Welcome to the School Management System.<br />
+            Manage students, staff, exams, fees and notices efficiently.
+        </p>  
+
+        <div class="school-badge">
+            🎓 Smart Digital Education System
+        </div>
+    </div>
+ 
+    <div class="right-panel">
+        <h2>LOGIN</h2>
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required />
+            </div>
+
+            <div class="form-group">
+                <label> Password </label>
+                <input type="password" name="password" required />
+            </div>
+
+            <button type="submit" class="login-btn">LOGIN</button>
+            <p style="margin-top:10px;">
+    <a href="@Url.Action("ForgotPassword", "Account")">
+        Forgot Password?
+    </a>
+</p>
+           @Html.ValidationSummary(true, "", new { @class = "error" })
+        }
+    </div>
+</div>

@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Fee Module";
+}
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f4f6f9;
+    }
+
+    .container-box {
+        max-width: 900px;
+        margin: 50px auto;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .btn {
+        background: #28a745;
+        color: white;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background: #218838;
+        }
+
+    .nav-box {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .nav-btn {
+        flex: 1;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        transition: 0.3s;
+    }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+    .info {
+        color: #666;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+<div class="container-box">
+
+    <div class="title"> Fee Management System </div>
+
+    <div class="card">
+        <h3>Search Student</h3>
+
+        @using (Html.BeginForm("Search", "Fee", FormMethod.Post))
+        {
+            <input type="text"
+                   name="studentName"
+                   class="form-control"
+                   placeholder="Enter Student Name or ID" />
+
+            <button type="submit" class="btn">
+                Search
+            </button>
+        }
+
+        <div class="info">
+            Search a student to manage fee structure & payments
+        </div>
+    </div>
+
+    <!-- QUICK NAVIGATION -->
+    <div class="card">
+        <h3>Quick Actions</h3>
+
+        <div class="nav-box">
+
+            <a href="@Url.Action("Create","Fee")" class="nav-btn">
+                ➕ Create Fee
+            </a>
+ 
+            <a href="@Url.Action("Dashboard","Fee")" class="nav-btn">
+                 Dashboard
+            </a>
+
+            <a href="@Url.Action("ERP","Dashboard")" class="nav-btn">
+                <-Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

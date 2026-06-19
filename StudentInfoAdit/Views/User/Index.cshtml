@@ -1,0 +1,195 @@
+﻿@model IEnumerable<StudentInfoAdit.Models.User>
+
+@{
+    ViewBag.Title = "User Management";
+}
+
+<style>
+    .user-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        font-family: Arial;
+    }
+
+    .user-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .user-title {
+        color: #224abe;
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .user-btn {
+        background: #007cba;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .user-btn:hover {
+            background: #221900;
+            color: white;
+            text-decoration: none;
+        }
+
+    .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .user-table th {
+            background: linear-gradient(135deg, #43a047, #cddc39);
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+
+        .user-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-table tr:hover {
+            background: #f2f6ff;
+        }
+
+    .status-active {
+        color: green;
+        font-weight: bold;
+    }
+
+    .status-inactive {
+        color: red;
+        font-weight: bold;
+    }
+
+    @@media (max-width: 768px) {
+        .user-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .user-header {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+    }
+       .notice-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        font-family: Arial;
+    }
+
+    .user-header {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        gap: 20px; 
+        margin-bottom: 20px;
+    }
+
+    .notice-btn {
+        background: #007cba;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+        .notice-btn:hover {
+            background: #005f8d;
+            color: white;
+            text-decoration: none;
+        }
+
+    .back-btn {
+        background: #6c757d;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+        .back-btn:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<div class="user-container">
+
+    <div class="user-header">
+        <h2 class="user-title">User Management</h2>
+
+        <div class="user-header">
+            <a href="@Url.Action("Create", "User")" class="notice-btn">
+                + Create New User
+            </a>
+
+            <a href="@Url.Action("index", "Dashboard")" class="back-btn">
+                ← Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Active</th>
+                <th>Reset Password</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserId</td>
+                    <td>@item.Username</td>
+                    <td>@item.Role</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            <span class="status-active">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="status-inactive">No</span>
+                        }
+                    </td>
+                    <td>
+                        @if (ViewBag.ResetUsers != null &&
+    ((List<string>)ViewBag.ResetUsers).Contains(item.Username))
+{   
+    <a href="@Url.Action("ResetPassword", "User", new { username = item.Username })"
+       class="btn btn-warning">
+        Reset
+    </a>
+}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

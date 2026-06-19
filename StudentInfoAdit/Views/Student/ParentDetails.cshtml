@@ -1,0 +1,66 @@
+﻿@model StudentInfoAdit.Models.StudentViewModel
+<link href="~/Content/Student.css" rel="stylesheet" />
+<div class="form-container">
+    <h2>Parent Details</h2>
+
+    <h3>
+        Student :
+        @Model.Student.StudentName
+    </h3>
+
+    @using (Html.BeginForm("SaveParent","Student",FormMethod.Post))             
+    {
+        @Html.HiddenFor(m => m.Parent.StudentId)         
+        <table>
+
+            <tr>
+                <td>Father Name</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Parent.FatherName)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Father Occupation</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Parent.FOccupation)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Father Mobile</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Parent.FMobileno)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Mother Name</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Parent.MotherName)
+                </td>
+            </tr>
+                                                                                                               
+            <tr>
+                <td>Mother Occupation</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Parent.MOccupation)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Mother Mobile</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Parent.MMobileno)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit"
+                           value="Save Parent Details" />
+                </td>
+            </tr>
+
+        </table>
+    }
+</div>

@@ -1,0 +1,135 @@
+﻿@model StudentInfoAdit.Models.FeeViewModel
+
+@{
+    ViewBag.Title = "Fee Receipt";
+}
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f4f6f9;
+    }
+
+    .receipt-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 20px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+
+        .section h4 {
+            margin-bottom: 10px;
+            color: #224abe;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table th {
+            background: #224abe;
+            color: white;
+            padding: 10px;
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+    .btn-print {
+        background: #28a745;
+        color: white;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    .btn-back {
+        background: #007bff;
+        color: white;
+        padding: 10px 18px;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-left: 10px;
+    }
+
+    @@media print {
+        .btn-print, .btn-back {
+            display: none;
+        }
+    }
+</style>
+
+<div class="receipt-container">
+
+    <div class="title"> FEE RECEIPT</div>
+
+    <div class="section">
+        <h4>Student Details</h4>
+        <p><b>Name:</b> @Model.Student.StudentName</p>
+        <p><b>Class:</b> @Model.Student.StudentClass</p>
+    </div>
+
+    <div class="section">
+        <h4>Fee Summary</h4>
+        <p><b>Total Fee:</b> @Model.Fee.TotalFee</p>
+        <p><b>Total Paid:</b> @Model.TotalPaid</p>
+        <p><b>Balance:</b> @Model.Balance</p>
+    </div>
+
+    <div class="section">
+        <h4>Payment History</h4>
+
+        @if (Model.Payments != null && Model.Payments.Count > 0)
+        {
+            <table>
+                <tr>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Mode</th>
+                </tr>
+
+                @foreach (var p in Model.Payments)
+                {
+                    <tr>
+                        <td>@p.AmountPaid</td>
+                        <td>@p.PaymentDate</td>
+                        <td>@p.PaymentMode</td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>No payments found</p>
+        }
+    </div>
+    <button class="btn-print" onclick="window.print()">
+         Print Receipt
+    </button>
+    <a href="@Url.Action("Index","Fee")" class="btn-back">
+        ← Back
+    </a>
+</div>

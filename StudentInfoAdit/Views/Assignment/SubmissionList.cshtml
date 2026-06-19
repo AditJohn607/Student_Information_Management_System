@@ -1,0 +1,153 @@
+﻿@model IEnumerable<StudentInfoAdit.Models.AssignmentSubmissionModel>
+
+@{
+    ViewBag.Title = "Assignment Submissions";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .submission-container {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #224abe;
+        font-size: 30px;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+
+    .top-buttons {
+        margin-bottom: 20px;
+        text-align: right;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: white;
+        border-radius: 6px;
+        margin-left: 10px;
+    }
+
+    .back-btn {
+        background: #007bff;
+    }
+
+    .table-container {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .submission-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .submission-table th {
+            background: linear-gradient(135deg, #43a047, #cddc39);
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .submission-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .submission-table tr:hover {
+            background: #f5f8ff;
+        }
+
+    .download-link {
+        background: #28a745;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+        .download-link:hover {
+            opacity: 0.9;
+        }
+
+    @@media (max-width:768px) {
+        .table-container {
+            overflow-x: auto;
+        }
+    }
+</style>
+
+<div class="submission-container">
+
+    <h2 class="page-title">Assignment Submissions</h2>
+
+    <div class="top-buttons">
+        <a href="@Url.Action("Index", "Assignment")"
+           class="btn back-btn">
+            Back to Assignments
+        </a>
+    </div>
+
+    <div class="table-container">
+
+        <table class="submission-table">
+
+            <thead>
+                <tr>
+                    <th>Submission ID</th>
+                    <th>Assignment</th>
+                    <th>Submitted By</th>
+                    <th>Submission Date</th>
+                    <th>File</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.SubmissionId</td>
+
+                        <td>
+                            @(item.Assignment != null
+                                ? item.Assignment.Title
+                                : "")
+                        </td>
+
+                        <td>
+                            @item.SubmittedBy
+                        </td>
+
+                        <td>
+                            @item.SubmissionDate.ToString("dd-MMM-yyyy HH:mm")
+                        </td>
+
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.FilePath))
+                            {
+                                <a href="@Url.Content(item.FilePath)"
+                                   target="_blank"
+                                   class="download-link">
+                                    Download
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

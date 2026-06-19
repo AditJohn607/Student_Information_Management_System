@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Fee Dashboard";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f4f6f9;
+    }
+
+    .container-box {
+        max-width: 1200px;
+        margin: 40px auto;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 25px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+        .card h2 {
+            color: #224abe;
+        }
+
+    .charts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .chart-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="container-box">
+
+    <div class="title"> Fee Analytics Dashboard </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>@ViewBag.TotalCollection</h2>
+            <p>Total Collection</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.TotalPending</h2>
+            <p>Total Pending</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.TotalStudents</h2>
+            <p>Students</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.TotalTransactions</h2>
+            <p>Transactions</p>
+        </div>
+
+    </div>
+
+    <div class="charts">
+
+        <div class="chart-box">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <canvas id="modeChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Encode(ViewBag.Months)),
+            datasets: [{
+                label: 'Monthly Collection',
+                data: @Html.Raw(Json.Encode(ViewBag.MonthlyAmounts)),
+                borderColor: '#224abe',
+                backgroundColor: 'rgba(34,74,190,0.2)',
+                fill: true
+            }]
+        }
+    });
+    var modeCtx = document.getElementById('modeChart').getContext('2d');
+    new Chart(modeCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Cash', 'UPI', 'Card'],
+            datasets: [{
+                data: @Html.Raw(Json.Encode(ViewBag.PaymentModes)),
+                backgroundColor: ['green', 'blue', 'orange']
+            }]
+        }
+    });
+</script>

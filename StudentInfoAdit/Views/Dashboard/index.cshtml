@@ -1,0 +1,278 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    string role = (Session["Role"] ?? "").ToString();
+}
+
+@if (role == "Admin")
+{
+    bool erpMode = Session["ERPMode"] != null && (bool)Session["ERPMode"];
+
+    <div style="
+         margin 15px auto;
+         padding 12px;
+         text-align center;
+         font-weight bold;
+         color white;
+         border-radius 6px;
+         background @(erpMode ? "#28a745" : "#6c757d") ;">
+    </div>
+}
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #feff80;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .dashboard-container {
+        position: relative;
+        z-index: 1;
+        max-width: 4000px;
+        margin: 60px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 38px;
+        font-weight: 800;
+        margin-bottom: 40px;
+        color: white;
+        text-transform: uppercase;
+        color: #628e3b;
+    }
+
+        .row { 
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .col-md-4 {
+            flex: 0 0 calc(20% - 20px);
+        }
+
+    .panel {
+        background: white;
+        border: 1px solid #e0e6e0;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        transition: 0.25s ease;
+        overflow: hidden;
+    }
+
+            .panel:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            }
+
+        .panel-heading {
+            background: linear-gradient(135deg, #43a047, #cddc39);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .panel-body {
+            padding: 22px;
+            text-align: center;
+        }
+
+        .dashboard-btn {
+            display: inline-block;
+            width: 80%;
+            padding: 12px;
+            background: linear-gradient(135deg, #43a047, #cddc39);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+            .dashboard-btn:hover {
+                transform: scale(1.03);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            }
+
+        @@media (max-width: 992px) {
+            .col-md-4 {
+                flex: 0 0 48%;
+            }
+        }
+
+        @@media (max-width: 600px) {
+            .col-md-4 {
+                flex: 0 0 100%;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+</style>
+
+<div style="position:absolute; top:15px; left:20px;">
+    <a href="@Url.Action("Login", "Account")"
+       style="padding: 10px 15px; background: #1d80ba; color: white; text-decoration: none; border-radius: 6px; ">
+        Logout
+    </a>
+</div>
+
+<div style="position:absolute; top:15px; right:20px;">
+    <a href="@Url.Action("Admin", "Dashboard")"
+       style="padding:10px 15px;
+              background:#1d80ba;
+              color:white;
+              text-decoration:none;
+              border-radius:6px;">
+        Back to Dashboard
+    </a>
+</div>
+
+<div style="position:absolute; bottom:50px; right:20px;">
+    <a href="@Url.Action("index", "User")"
+       style="padding: 10px 15px; background: #ff5e00; color: white; text-decoration: none; border-radius: 6px;">
+        new user+
+    </a>
+</div>
+
+<div class="container dashboard-container">
+
+    <h1>School Management Dashboard</h1>
+
+    <div class="row">
+        
+        @if (role == "Admin" || role == "Teacher")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Student Module</div>
+                    <div class="panel-body">
+                        <p>Manage Students</p>
+                        <a href="@Url.Action("StudentDetails", "Student")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Parent Module</div>
+                    <div class="panel-body">
+                        <p>Manage Parent Information</p>
+                        <a href="@Url.Action("StudentDetails", "Student")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Staff Module</div>
+                    <div class="panel-body">
+                        <p>Manage Staff Details</p>
+                        <a href="@Url.Action("StaffDetails", "Staff")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin" || role == "Teacher")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Attendance Module</div>
+                    <div class="panel-body">
+                        <p>Mark Attendance</p>
+                        <a href="@Url.Action("AttendanceDetails", "Attendance")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin" || role == "Accountant")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Fee Module</div>
+                    <div class="panel-body">
+                        <p>Manage Fees & Payments</p>
+                        <a href="@Url.Action("Index", "Fee")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin" || role == "Teacher")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Exam Module</div>
+                    <div class="panel-body">
+                        <p>Manage Exams & Results</p>
+                        <a href="@Url.Action("Index", "Exam")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin" || role == "Teacher")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Library Module</div>
+                    <div class="panel-body">
+                        <p>Issue & Return Books</p>
+                        <a href="@Url.Action("IssueBook", "Library")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Notice Module</div>
+                <div class="panel-body">
+                    <p>Manage Notices</p>
+                    <a href="@Url.Action("Index", "Notice")" class="dashboard-btn">OPEN</a>
+                </div>
+            </div>
+        </div>
+
+        @if (role == "Admin" || role == "Teacher" || role == "Parent")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Time-table Module</div>
+                    <div class="panel-body">
+                        <p>Time-table</p>
+                        <a href="@Url.Action("Index", "Timetable")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (role == "Admin" || role == "Teacher" || role == "Parent")
+        {
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Assignment Module</div>
+                    <div class="panel-body">
+                        <p>For Assignments</p>
+                        <a href="@Url.Action("Index", "Assignment")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>

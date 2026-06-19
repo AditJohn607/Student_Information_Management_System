@@ -1,0 +1,91 @@
+﻿@model StudentInfoAdit.Models.NoticeModel
+
+<style>
+    .notice-form {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        font-family: Arial;
+    }
+
+        .notice-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007cba;
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #007cba;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+        .btn-submit:hover {
+            background: #005a87;
+        }
+</style>
+
+<div class="notice-form">
+
+    <h2>Create Notice</h2>
+
+    @using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()  
+
+                       <div class="form-group">
+                           <label>Title</label>
+                           @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                       </div>
+
+                       <div class="form-group">
+                           <label>Description</label>
+                           @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4 })
+                       </div>
+
+                       <div class="form-group">
+                           <label>Publish Date</label>
+                           @Html.TextBoxFor(m => m.PublishDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                       </div>
+
+                       <div class="form-group">
+                           <label>Expiry Date</label>
+                           @Html.TextBoxFor(m => m.ExpiryDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                       </div>
+  
+                       <div class="form-group">
+                           <label>Created By</label>
+                           @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control" })
+                       </div>
+
+                       <div class="form-group">
+                           @Html.CheckBoxFor(m => m.IsActive) Active
+                       </div>
+
+                       <button type="submit" class="btn-submit">Save Notice</button>
+}
+</div>
