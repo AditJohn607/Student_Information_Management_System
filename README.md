@@ -98,16 +98,6 @@ The system uses relational database design with tables such as:
 
 ---
 
-## 📊 Fee Management Highlights
-
-- One student → One fee structure per academic year
-- Multiple payments allowed per fee record
-- Automatic balance calculation
-- Receipt generation for each payment
-- Dashboard analytics for financial insights
-
----
-
 ## ⚙️ How to Run the Project
 
 1. Clone the repository:
