@@ -43,7 +43,7 @@ The **Student Information Management System (SIMS)** is a centralized platform t
 - Daily attendance tracking
 - Attendance reports
 
-### 5. Fee Module 💰
+### 5. Fee Module 
 - Fee structure creation
 - Payment tracking
 - Balance calculation
