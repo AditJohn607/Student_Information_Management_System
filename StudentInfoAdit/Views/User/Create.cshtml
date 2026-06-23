@@ -102,16 +102,26 @@
                    class="form-control"
                    required />
         </div>
-
+                
         <div class="form-group">
             <label>Role</label>
             <select name="role" class="form-control">
                 <option value="Teacher">Teacher</option>
-                <option value="Parent">Parent</option>
+                <option value="Student">Student</option>
                 <option value="Accountant">Accountant</option>
                 <option value="Admin">Admin</option>
             </select>
         </div>
+        
+        <div class="form-group" id="studentDiv" style="display:none;">
+    <label>Select Student</label>
+
+    @Html.DropDownList(
+        "studentId",
+        (SelectList)ViewBag.Students,
+        "-- Select Student --",
+        new { @class = "form-control" })
+       </div>
 
         <div class="form-group">
             <input type="submit"
@@ -119,5 +129,31 @@
                    class="user-btn" />
         </div>
     }
+    <script>
+        function toggleStudentDropdown() {
 
+            var role =
+                document.querySelector(
+                    "select[name='role']").value;
+
+            var studentDiv =
+                document.getElementById(
+                    "studentDiv");
+
+            if (role === "Student") {
+                studentDiv.style.display = "block";
+            }
+            else {
+                studentDiv.style.display = "none";
+            }
+        }
+
+        document.querySelector(
+            "select[name='role']")
+            .addEventListener(
+                "change",
+                toggleStudentDropdown);
+
+        toggleStudentDropdown();
+    </script>
 </div>

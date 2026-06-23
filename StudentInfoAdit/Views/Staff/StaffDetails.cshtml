@@ -3,186 +3,103 @@
     ViewBag.Title = "Staff Details";
 }
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #89f7fe, #66a6ff);
-        min-height: 100vh;
-    }
-
     .form-container {
-        width: 95%;
-        max-width: 1100px;
+        max-width: 1000px;
         margin: 40px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        border: 5px dashed #ffd54f;
+        font-family: Arial;
     }
 
     h2 {
         text-align: center;
-        font-size: 38px;
-        color: #ff4081;
         margin-bottom: 25px;
-        text-shadow: 2px 2px #fff176;
+        color: #333;
     }
 
-    p {
-        text-align: center;
-        margin-bottom: 25px;
+    .top-bar {
+        text-align: left;
+        margin-bottom: 15px;
     }
 
     .btn {
-        padding: 12px 20px; 
-        border-radius: 12px;
-        text-decoration: none;
+        padding: 10px 15px;
         color: white;
-        font-size: 17px;
+        text-decoration: none;
+        border-radius: 6px;
         font-weight: bold;
-        margin: 5px;
-        display: inline-block;
         transition: 0.3s;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
     }
 
         .btn:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
 
     .btn-success {
-        background: #4caf50;
+        background: #ff7500;
     }
 
-        .btn-success:hover {
-            background: #43a047;
-        }
-
     .btn-info {
-        background: #29b6f6;
+        background: #007cba;
     }
 
         .btn-info:hover {
-            background: #039be5;
+            background: #005f8a;
         }
 
     .btn-primary {
-        background: #7e57c2;
-        padding: 8px 14px;
-        font-size: 14px;
+        background: #007cba;
+        padding: 8px 12px;
     }
 
         .btn-primary:hover {
-            background: #5e35b1;
+            background: #005f8a;
         }
 
     .btn-danger {
-        background: #ef5350;
-        padding: 8px 14px;
-        font-size: 14px;
+        background: #dc3545;
+        padding: 8px 12px;
     }
 
         .btn-danger:hover {
-            background: #e53935;
+            background: #b52a37;
         }
 
     .student-table {
         width: 100%;
         border-collapse: collapse;
-        overflow: hidden;
-        border-radius: 15px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
         .student-table th {
-            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
-            color: #333;
-            padding: 15px;
-            font-size: 18px;
+            background: linear-gradient(135deg, #43a047, #cddc39);
+            color: black;
+            padding: 12px;
+            text-align: center;
         }
 
         .student-table td {
-            padding: 14px;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
             text-align: center;
-            font-size: 16px;
-            border-bottom: 2px solid #f1f1f1;
-        }
-
-        .student-table tr:nth-child(even) {
-            background: #f9f9ff;
-        }
-
-        .student-table tr:nth-child(odd) {
-            background: #ffffff; 
         }
 
         .student-table tr:hover {
-            background: #fff9c4;
-            transform: scale(1.01);
-            transition: 0.2s;
+            background: #f2f6ff;
         }
 
-    @@media screen and (max-width: 768px) {
-
-        .student-table,
-        .student-table thead,
-        .student-table tbody,
-        .student-table th,
-        .student-table td,
-        .student-table tr {
+    @@media (max-width: 768px) {
+        .student-table {
             display: block;
-            width: 100%;
-        } 
+            overflow-x: auto;
+            white-space: nowrap;
+        }
 
-            .student-table tr {
-                margin-bottom: 15px;
-                border-radius: 15px;
-                overflow: hidden;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            }
-
-            .student-table th {
-                display: none;
-            }
-
-            .student-table td {
-                text-align: left;
-                padding-left: 50%;
-                position: relative;
-                background: white;
-            }
-
-            .student-table td::before {
-                 position: absolute;
-                 left: 15px;
-                 top: 12px;
-                 font-weight: bold;
-                 color: #ff4081;
-                }
-
-                .student-table td:nth-child(1)::before {
-                    content: "ID";
-                }
-
-                .student-table td:nth-child(2)::before {
-                    content: "Name";
-                }
-
-                .student-table td:nth-child(3)::before {
-                    content: "Role";
-                }
-
-                .student-table td:nth-child(4)::before {
-                    content: "Subject";
-                }
-
-                .student-table td:nth-child(5)::before {
-                    content: "Joined";
-                }
-
-                .student-table td:nth-child(6)::before {
-                    content: "Actions";
-                }
+        .btn {
+            margin-bottom: 5px;
+        }
     }
 </style>
 <div class="form-container">

@@ -2,128 +2,11 @@
     ViewBag.Title = "Accountant Dashboard";
 }
 
-<style>
-    :root {
-        --wp-admin-theme-color: #007cba;
-        --wp-admin-theme-color-darker: #006ba1;
-        --wp-accent: #7a00df;
-        --wp-text-light: #fff;
-        --wp-bg: #f4f6f9;
-        --wp-card-bg: #ffffff;
-        --wp-border: #e6e6e6;
-        --wp-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        --wp-radius: 10px;
-    }
-
-    body {
-        background: var(--wp-bg);
-        font-family: "Roboto", "Segoe UI", Arial, sans-serif;
-    }
-
-    .dashboard-container {
-        max-width: 1100px;
-        margin: 50px auto;
-        padding: 20px;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 36px;
-        font-weight: 800;
-        margin-bottom: 35px;
-        color: var(--wp-admin-theme-color);
-        text-transform: uppercase;
-    }
-
-    /* GRID */
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .col-md-4 {
-        flex: 0 0 calc(33.333% - 20px);
-    }
-
-    /* PANEL STYLE */
-    .panel {
-        background: var(--wp-card-bg);
-        border: 1px solid var(--wp-border);
-        border-radius: var(--wp-radius);
-        box-shadow: var(--wp-shadow);
-        transition: all 0.25s ease-in-out;
-        overflow: hidden;
-        text-align: center;
-    }
-
-        .panel:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.12);
-            border-color: var(--wp-admin-theme-color);
-        }
-
-    .panel-heading {
-        background: linear-gradient( 135deg, var(--wp-admin-theme-color), var(--wp-accent) );
-        color: var(--wp-text-light);
-        padding: 14px;
-        font-size: 14px;
-        font-weight: 700;
-    }
-
-    .panel-body {
-        padding: 25px;
-    }
-
-        .panel-body h2 {
-            font-size: 32px;
-            color: var(--wp-admin-theme-color);
-            margin: 0;
-        }
-
-
-        .panel-body p {
-            margin-top: 10px;
-            color: #666;
-            font-weight: 600;
-        }
-
-    .dashboard-btn {
-        display: inline-block;
-        margin-top: 15px;
-        padding: 10px 14px;
-        width: 100%;
-        background: var(--wp-admin-theme-color);
-        color: #fff;
-        text-decoration: none;
-        border-radius: 6px;
-        font-weight: 600;
-    }
-
-        .dashboard-btn:hover {
-            background: var(--wp-admin-theme-color-darker);
-        }
-
-    @@media (max-width: 992px) {
-        .col-md-4 {
-            flex: 0 0 calc(50% - 20px);
-        }
-    }
-    
-    @@media (max-width: 600px) {
-        .col-md-4 {
-            flex: 0 0 100%;
-        }
-    }
-</style>
+<link href="~/Content/dashboard.css" rel="stylesheet" />
 
 <div style="position:absolute; bottom:15px; left:20px;">
     <a href="@Url.Action("ChangePassword", "Account")"
-       style="padding:10px 15px;
-          background:#007cba;
-          color:white;
-          text-decoration:none;
-          border-radius:6px;">
+       style="padding: 10px 15px; background: #ff5e00; color: white; text-decoration: none; border-radius: 6px;">
         Change Password
     </a>
 </div>
@@ -134,11 +17,7 @@
 
     <div style="position:absolute; top:15px; left:20px;">
         <a href="@Url.Action("Logout", "Account")"
-           style="padding:10px 15px;
-              background:#dc3545;
-              color:white;
-              text-decoration:none;
-              border-radius:6px;">
+           style="padding: 10px 15px; background: #ff7500; color: white; text-decoration: none; border-radius: 6px;">
             Logout
         </a>
     </div>
@@ -151,7 +30,7 @@
                 <div class="panel-body">
                     <h2>₹ @ViewBag.TotalFees</h2>
                     <p>Overall Collection</p>
-                    <a href="@Url.Action("Index", "Fee")" class="dashboard-btn">VIEW DETAILS</a>
+                    <a href="@Url.Action("Index", "Fee")" class="dashboard-btn">VIEW</a>
                 </div>
             </div>
         </div>
@@ -166,6 +45,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Pending Fees</div>
+                <div class="panel-body">
+                    <h2> @ViewBag.PendingFees</h2>
+                    <p>Outstanding Amount</p>
+                </div>
+            </div>
+        </div>
         
         <div class="col-md-4">
             <div class="panel">
@@ -173,7 +62,7 @@
                 <div class="panel-body">
                     <h2>Info</h2>
                     <p>Class-wise Fee Setup</p>
-                    <a href="@Url.Action("Index", "Fee")" class="dashboard-btn">OPEN</a>
+                    <a href="@Url.Action("Index", "Fee")" class="dashboard-btn">VIEW</a>
                 </div>
             </div>
         </div>
@@ -184,7 +73,7 @@
                 <div class="panel-body">
                     <h2>@ViewBag.TotalStudents</h2>
                     <p>Fee Records by Student</p>
-                    <a href="@Url.Action("StudentDetails", "Student")" class="dashboard-btn">VIEW STUDENTS</a>
+                    <a href="@Url.Action("StudentDetails", "Student")" class="dashboard-btn">VIEW</a>
                 </div>
             </div>
         </div>
@@ -195,7 +84,7 @@
                 <div class="panel-body">
                     <h2>@ViewBag.TotalStudents</h2>
                     <p>Click here to view recent notices</p>
-                    <a href="@Url.Action("Index", "Notice")" class="dashboard-btn">VIEW STUDENTS</a>
+                    <a href="@Url.Action("Index", "Notice")" class="dashboard-btn">VIEW</a>
                 </div>
             </div>
         </div>

@@ -87,20 +87,17 @@
 
     <div class="card">
 
-        <!-- STUDENT INFO -->
         <div class="info">
             <p><b>Student:</b> @Model.Student.StudentName</p>
             <p><b>Class:</b> @Model.Student.StudentClass</p>
         </div>
 
-        <!-- FEE INFO -->
         <div class="info">
             <p><b>Total Fee:</b> @Model.Fee.TotalFee</p>
             <p><b>Paid:</b> @Model.TotalPaid</p>
             <p><b>Balance:</b> @Model.Balance</p>
         </div>
         
-        <!-- PAYMENT FORM -->
         @using (Html.BeginForm("AddPayment", "Fee", FormMethod.Post))
         {
             @Html.Hidden("feeId", Model.Fee.FeeId)

@@ -15,6 +15,21 @@ namespace StudentInfoAdit.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("Login", "Account");
 
+            string role = Session["Role"] == null? "": Session["Role"].ToString(); ;
+
+            if (role == "Student")
+            {
+                int studentId = Convert.ToInt32(Session["StudentId"]);
+
+                var student = db.Students
+                                .FirstOrDefault(x => x.StudentId == studentId);
+
+                if (student != null)
+                {
+                    selectedClass = student.StudentClass.ToString() + "th";
+                }
+            }
+
             ViewBag.ClassList = new List<SelectListItem>
 {
     new SelectListItem { Text = "1st", Value = "1st" },
@@ -41,7 +56,7 @@ namespace StudentInfoAdit.Controllers
                          .ToList();
 
             var days = new List<string>
-    {
+    { 
         "Monday",
         "Tuesday",
         "Wednesday",   
@@ -58,7 +73,7 @@ namespace StudentInfoAdit.Controllers
                 string key = item.DayOfWeek + "-" + item.PeriodNo;
                 grid[key] = item;
             }
-      
+                                                                                                                                                                                                                                           
             var model = new TimetableGridViewModel
             {
                 Days = days,
@@ -68,7 +83,7 @@ namespace StudentInfoAdit.Controllers
             };
             return View(model);
         }
-
+        
         public ActionResult Delete(int id)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
@@ -81,7 +96,7 @@ namespace StudentInfoAdit.Controllers
             }          
             return RedirectToAction("Index");
         }
-    
+                                                                  
         private bool IsAdmin()
         {
             return Session["Role"] != null &&
@@ -99,7 +114,7 @@ namespace StudentInfoAdit.Controllers
                 new SelectListItem { Text = "Friday", Value = "Friday" }
             };
         }
-   
+                                                                                                                            
         [HttpGet]
         public ActionResult Create()
         {
@@ -157,7 +172,7 @@ namespace StudentInfoAdit.Controllers
                new SelectListItem { Text = "11th", Value = "11th" },
                new SelectListItem { Text = "12th", Value = "12th" } 
     };
-
+                                                                        
             return View(model);
         }
     }

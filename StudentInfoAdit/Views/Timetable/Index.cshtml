@@ -34,7 +34,7 @@
                     
     .btn-add {
         padding: 10px 15px;
-        background: linear-gradient(135deg, #43a047, #cddc39);
+        background: #ff7500;
         color: white;
         text-decoration: none;
         border-radius: 6px;
@@ -96,16 +96,40 @@
     }
 </style>
 
+@if (role == "Admin")
+{
 <div class="top-bar2">
     <a href="@Url.Action("ERP","Dashboard")" class="btn-add">
         Back to Home
     </a>
 </div>
+}
+
+@if (role == "Teacher")
+{
+    <div class="top-bar2">
+        <a href="@Url.Action("Teacher","Dashboard")" class="btn-add">
+            Back to Home
+        </a>
+    </div>
+}
+
+@if (role == "Student")
+{
+    <div class="top-bar2">
+        <a href="@Url.Action("Student","Dashboard")" class="btn-add">
+            Back to Home
+        </a>
+    </div>
+}
 
 <div class="container-box">
 
     <h2>📅 Weekly Timetable</h2>
-    <div style="margin-bottom:20px; text-align:center;">
+
+    @if (role == "Admin")
+    {
+        <div style="margin-bottom:20px; text-align:center;">
 
         @using (Html.BeginForm("Index", "Timetable", FormMethod.Get))
         {
@@ -124,15 +148,13 @@
         }
     </div>
 
-    @if (role == "Admin")
-    {
-        <div class="top-bar">
-            <a href="@Url.Action("Create","Timetable")" class="btn-add">
-                + Add Timetable
-            </a>
-        </div>
+    <div class="top-bar">
+        <a href="@Url.Action("Create","Timetable")" class="btn-add">
+            + Add Period
+        </a>
+    </div>
     }
-
+    
     <table>
         <tr>
             <th>Period</th>

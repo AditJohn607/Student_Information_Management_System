@@ -29,4 +29,3 @@ C:\Users\user\Documents\Visual Studio 2013\Projects\StudentInfoAdit\StudentInfoA
 C:\Users\user\Documents\Visual Studio 2013\Projects\StudentInfoAdit\StudentInfoAdit\bin\System.Web.WebPages.Razor.xml
 C:\Users\user\Documents\Visual Studio 2013\Projects\StudentInfoAdit\StudentInfoAdit\obj\Debug\StudentInfoAdit.dll
 C:\Users\user\Documents\Visual Studio 2013\Projects\StudentInfoAdit\StudentInfoAdit\obj\Debug\StudentInfoAdit.pdb
-C:\Users\user\Documents\Visual Studio 2013\Projects\StudentInfoAdit\StudentInfoAdit\obj\Debug\StudentInfoAdit.csprojResolveAssemblyReference.cache

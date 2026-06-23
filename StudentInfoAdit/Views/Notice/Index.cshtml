@@ -23,7 +23,7 @@
         color: white;
         padding: 10px 15px;
         text-decoration: none;
-        border-radius: 6px;
+        border-radius: 50px;
     }
 
         .notice-btn:hover {
@@ -41,6 +41,26 @@
             background: linear-gradient(135deg, #43a047, #cddc39);
             color: white;
             padding: 12px;
+        }
+
+    .top-bar2 {
+        text-align: left;
+        margin-bottom: 15px;
+    }
+
+    .btn-add {
+        padding: 10px 15px;
+        background: linear-gradient(135deg, #43a047, #cddc39);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+        .btn-add:hover {
+            transform: scale(1.05);
         }
 
         .notice-table td {
@@ -61,11 +81,50 @@
     }
 </style>
 
+@if (role == "Admin")
+{
+    <div class="top-bar2">
+        <a href="@Url.Action("ERP","Dashboard")" class="btn-add"
+           style="background : #ff8500;">
+            Back to Home
+        </a>
+    </div>
+}
+
+@if (role == "Accountant")
+{
+    <div class="top-bar2">
+        <a href="@Url.Action("Accountant","Dashboard")" class="btn-add">
+            Back to Home
+        </a>
+    </div>
+}
+
+@if (role == "Student")
+{
+    <div class="top-bar2">
+        <a href="@Url.Action("Student","Dashboard")" class="btn-add">
+            Back to Home
+        </a>
+    </div>
+}
+
+@if (role == "Teacher")
+{
+    <div class="top-bar2">
+        <a href="@Url.Action("Teacher","Dashboard")" class="btn-add">
+            >
+            Back to Home
+        </a>
+    </div>
+}
+
 <div class="notice-container">
     <div class="notice-header">
         <h2>Notices</h2>
 @if (role == "Admin") {
-        @Html.ActionLink("Add Notice", "Create", null, new { @class = "notice-btn" })}
+        @Html.ActionLink("Add Notice", "Create", null, new { @class = "notice-btn" })
+}
     </div>
 
     <table class="notice-table">
@@ -94,12 +153,14 @@
                        style="padding:6px 10px;">
                         View
                     </a>
-@if (role == "Admin") { 
-                    <a href="/Notice/Delete/@item.NoticeId"
-                       class="notice-btn"
-                       onclick="return confirm('Are you sure you want to delete this notice?');">
-                        Delete
-                    </a>}
+@if (role == "Admin")
+{
+    <a href="/Notice/Delete/@item.NoticeId"
+       class="notice-btn"
+       style="padding:6px 10px;"
+       onclick="return confirm('Are you sure you want to delete this notice?');">
+        Delete
+    </a>}
                 </td>
             </tr>
         }

@@ -79,7 +79,6 @@
 
         @using (Html.BeginForm("Create", "Fee", FormMethod.Post))
         {
-            <!-- STUDENT ID -->
             <div class="form-group">
                 <label>Student</label>
                 @Html.DropDownList("StudentId",
@@ -87,8 +86,7 @@
                     "-- Select Student --",
                     new { @class = "form-control" })
             </div>
-
-            <!-- ACADEMIC YEAR -->
+            
             <div class="form-group">
                 <label>Academic Year</label>
                 <input type="text"

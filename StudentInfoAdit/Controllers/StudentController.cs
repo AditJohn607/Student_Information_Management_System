@@ -25,14 +25,14 @@ namespace StudentInfoAdit.Controllers
             using (var db = new StudentDBContext())
             {
                 var classList = new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "5th", Value = "5th" },
-                    new SelectListItem { Text = "6th", Value = "6th" },
-                    new SelectListItem { Text = "7th", Value = "7th" },
-                    new SelectListItem { Text = "8th", Value = "8th" },
-                    new SelectListItem { Text = "9th", Value = "9th" },
-                    new SelectListItem { Text = "10th", Value = "10th" }
-                };
+{
+    new SelectListItem { Text = "5", Value = "5" },
+    new SelectListItem { Text = "6", Value = "6" },
+    new SelectListItem { Text = "7", Value = "7" },
+    new SelectListItem { Text = "8", Value = "8" },
+    new SelectListItem { Text = "9", Value = "9" },
+    new SelectListItem { Text = "10", Value = "10"}
+};
 
                 var model = new StudentViewModel
                 {
@@ -91,8 +91,7 @@ namespace StudentInfoAdit.Controllers
                         db.Students.Add(vm.Student);
                         db.SaveChanges();
 
-                        if (vm.Parent != null &&
-                            !string.IsNullOrWhiteSpace(vm.Parent.FatherName))
+                        if (vm.Parent != null && !string.IsNullOrWhiteSpace(vm.Parent.FatherName))
                         {  
                             vm.Parent.StudentId = vm.Student.StudentId;
                             db.Parents.Add(vm.Parent);
@@ -110,7 +109,6 @@ namespace StudentInfoAdit.Controllers
                             student.PresentAddress = vm.Student.PresentAddress;
                             student.StudentClass = vm.Student.StudentClass;
                             student.MobileNumber = vm.Student.MobileNumber;
-
                             if (!string.IsNullOrEmpty(filePath))
                                 student.PhotoPath = filePath;
                         }
@@ -143,12 +141,12 @@ namespace StudentInfoAdit.Controllers
                     StudentList = db.Students.ToList(),
                     ClassList = new List<SelectListItem>                                                                                                 
                     {
-                        new SelectListItem { Text = "5th", Value = "5th" },
-                        new SelectListItem { Text = "6th", Value = "6th" },
-                        new SelectListItem { Text = "7th", Value = "7th" },
-                        new SelectListItem { Text = "8th", Value = "8th" },
-                        new SelectListItem { Text = "9th", Value = "9th" },
-                        new SelectListItem { Text = "10th", Value = "10th" }
+                        new SelectListItem { Text = "5", Value = "5" },
+                        new SelectListItem { Text = "6", Value = "6" },
+                        new SelectListItem { Text = "7", Value = "7" },
+                        new SelectListItem { Text = "8", Value = "8" },
+                        new SelectListItem { Text = "9", Value = "9" },
+                        new SelectListItem { Text = "10", Value = "10"}
                     }
                 };
                 return View("StudentDetails", model);
@@ -178,7 +176,7 @@ namespace StudentInfoAdit.Controllers
             }
             return RedirectToAction("StudentDetails");
         }
-
+       
         public ActionResult ParentDetails(int id)
         {
             using (var db = new StudentDBContext())
@@ -223,10 +221,8 @@ namespace StudentInfoAdit.Controllers
                     parent.MOccupation = vm.Parent.MOccupation;
                     parent.MMobileno = vm.Parent.MMobileno;                                                                                                                                     
                 }
-
                 db.SaveChanges();
             }
-
             return RedirectToAction("StudentDetails");
         }
     }

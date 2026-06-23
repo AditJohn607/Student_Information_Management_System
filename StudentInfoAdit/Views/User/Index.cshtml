@@ -158,6 +158,7 @@
                 <th>Role</th>
                 <th>Active</th>
                 <th>Reset Password</th>
+                <th>Delete</th>
             </tr>
         </thead>
 
@@ -187,6 +188,19 @@
         Reset
     </a>
 }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "User", FormMethod.Post))
+                        {
+                            <input type="hidden"
+                                   name="username"
+                                   value="@item.Username" />
+
+                            <button type="submit"
+                                    onclick="return confirm('Delete this user?');">
+                                Delete
+                            </button>
+                        }
                     </td>
                 </tr>
             }

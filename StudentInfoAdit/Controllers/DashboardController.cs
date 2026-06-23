@@ -24,8 +24,8 @@ namespace StudentInfoAdit.Controllers
              if (role == "Teacher")
                return RedirectToAction("Teacher"); 
 
-             if (role == "Parent")
-               return RedirectToAction("Parent");
+             if (role == "Student")
+               return RedirectToAction("Student");
 
              if (role == "Accountant")
                return RedirectToAction("Accountant");
@@ -64,11 +64,21 @@ namespace StudentInfoAdit.Controllers
         public ActionResult Admin()
         {
             if (Session["Role"] == null || Session["Role"].ToString() != "Admin")
-                return RedirectToAction("Login", "Account");      
+                return RedirectToAction("Login", "Account");
+
             ViewBag.TotalStudents = db.Students.Count();
+
             ViewBag.TotalStaff = db.Staff.Count();
-            ViewBag.TotalFees = db.FeePayments.Sum(x => (decimal?)x.AmountPaid) ?? 0m;
+
+            ViewBag.TotalFees =
+                db.FeePayments.Sum(x => (decimal?)x.AmountPaid) ?? 0m;
+
             ViewBag.TotalNotices = db.Notices.Count();
+
+            ViewBag.PendingResetCount =
+                db.PasswordResetRequests
+                  .Count(x => x.IsProcessed == false);
+
             return View();
         }
 
@@ -81,16 +91,16 @@ namespace StudentInfoAdit.Controllers
             return View(); 
         }
 
-        public ActionResult Parent()
+        public ActionResult Student()
         {
-            if (Session["Role"] == null || Session["Role"].ToString() != "Parent")
+            if (Session["Role"] == null || Session["Role"].ToString() != "Student")
                 return RedirectToAction("Login", "Account");                               
             ViewBag.Notices = db.Notices.Count();
             return View();
         }
  
         public ActionResult Accountant()
-        {
+        { 
             if (Session["Role"] == null || Session["Role"].ToString() != "Accountant")
                 return RedirectToAction("Login", "Account");
             decimal totalFees = db.FeeStructures.Sum(x => (decimal?)x.TotalFee) ?? 0m;
@@ -98,6 +108,6 @@ namespace StudentInfoAdit.Controllers
             ViewBag.TotalFees = paidFees;
             ViewBag.PendingFees = totalFees - paidFees;
             return View();
-        }
+        } 
     }
 } 

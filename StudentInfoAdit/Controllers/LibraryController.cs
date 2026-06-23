@@ -102,7 +102,7 @@ namespace StudentInfoAdit.Controllers
             TempData["Success"] = "Book issued successfully.";
             return RedirectToAction("IssuedBooks");
         }
- 
+
         public ActionResult IssuedBooks()
         {
             var books = db.BookIssueds
@@ -134,7 +134,7 @@ namespace StudentInfoAdit.Controllers
                 db.SaveChanges();
                 TempData["Success"] = "Book returned successfully.";
             }
-            
+
             return RedirectToAction("IssuedBooks");
         }
 

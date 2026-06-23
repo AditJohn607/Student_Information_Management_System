@@ -71,8 +71,6 @@ namespace StudentInfoAdit.Models
 
         public int StudentId { get; set; }
 
-        public string StudentName { get; set; }
-
         public DateTime AttendanceDate { get; set; }
 
         public TimeSpan? InTime { get; set; }
@@ -83,6 +81,19 @@ namespace StudentInfoAdit.Models
 
         [ForeignKey("StudentId")]
         public virtual StudentModel Student { get; set; }
+    }
+
+    public class AttendanceReportViewModel
+    {
+        public StudentModel Student { get; set; }
+
+        public List<AttendanceModel> AttendanceRecords { get; set; }
+
+        public int TotalDays { get; set; }
+
+        public int PresentDays { get; set; }
+
+        public double AttendancePercentage { get; set; }
     }
 
     [Table("FeeStructure")]
@@ -193,7 +204,7 @@ namespace StudentInfoAdit.Models
     public class ExamViewModel
     {
         public StudentModel Student { get; set; }
-        public ExamModel Exam { get; set; }
+        public ExamModel Exam { get; set; } 
         public List<ExamResultModel> Results { get; set; }
         public decimal Percentage { get; set; }
         public string Grade { get; set; }
@@ -204,16 +215,12 @@ namespace StudentInfoAdit.Models
     {
         [Key]
         public int BookId { get; set; }
-
+        
         [Required]
         public string BookName { get; set; }
-
         public string Author { get; set; }
-
         public string Subject { get; set; }
-
         public int TotalCopies { get; set; }
-
         public int AvailableCopies { get; set; }
     }
 
@@ -306,6 +313,11 @@ namespace StudentInfoAdit.Models
         public int FailedLoginAttempts { get; set; }
 
         public bool IsLocked { get; set; }
+
+        public int? StudentId { get; set; }
+
+        [ForeignKey("StudentId")]
+        public virtual StudentModel Student { get; set; }
     }
 
     [Table("Timetable")]

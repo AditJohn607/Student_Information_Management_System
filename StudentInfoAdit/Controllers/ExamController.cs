@@ -91,7 +91,6 @@ namespace StudentInfoAdit.Controllers
 
                 db.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
 
@@ -120,10 +119,10 @@ namespace StudentInfoAdit.Controllers
 
             ViewBag.Exam = exam;
 
-            var students = db.Students
-                             .Where(x => x.StudentClass ==
+            var students = db.Students 
+                             .Where(x => x.StudentClass == 
                                          exam.StudentClass)
-                             .OrderBy(x => x.StudentName)
+                             .OrderBy(x => x.StudentName)  
                              .ToList();
 
             return View(students);
@@ -148,6 +147,7 @@ namespace StudentInfoAdit.Controllers
                 existing.MarksObtained = marksObtained;
                 existing.MaxMarks = maxMarks;
             }
+
             else
             {
                 ExamResultModel result =

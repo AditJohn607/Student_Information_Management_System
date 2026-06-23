@@ -33,18 +33,29 @@ namespace StudentInfoAdit.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            if (Session["Role"] == null ||
-                Session["Role"].ToString() != "Admin")
+            if (Session["Role"] == null || Session["Role"].ToString() != "Admin")
             {
                 return RedirectToAction("Login", "Account");
             }
+
+            ViewBag.Students = new SelectList(
+    db.Students
+      .OrderBy(x => x.StudentId)
+      .Select(x => new
+      {
+          x.StudentId,
+          DisplayText = x.StudentId + " - " + x.StudentName
+      }),
+    "StudentId",
+    "DisplayText"
+);
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string username, string password, string role)
+        public ActionResult Create(string username, string password, string role, int? studentId)
         {
             if (Session["Role"] == null ||
                 Session["Role"].ToString() != "Admin")
@@ -53,17 +64,25 @@ namespace StudentInfoAdit.Controllers
             }
             if (db.Users.Any(x => x.Username == username))
             {
+                ViewBag.Students = new SelectList(
+                    db.Students.OrderBy(x => x.StudentName),
+                    "StudentId",
+                    "StudentName"
+                );
+
                 ViewBag.Error = "Username already exists.";
+
                 return View();
             }
             string salt = PasswordHelper.GenerateSalt();
             string hash = PasswordHelper.HashPassword(password, salt);
             User user = new User
-            {
+            { 
                 Username = username,
                 PasswordSalt = salt,
                 PasswordHash = hash,
                 Role = role,
+                StudentId = role == "Student" ? studentId : null,
                 IsActive = true,
                 IsLocked = false,
                 FailedLoginAttempts = 0,
@@ -101,6 +120,39 @@ namespace StudentInfoAdit.Controllers
 
                 db.SaveChanges();
             }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string username)
+        {
+            if (Session["Role"] == null ||
+                Session["Role"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = db.Users
+                         .FirstOrDefault(x => x.Username == username);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var requests = db.PasswordResetRequests
+                             .Where(x => x.Username == username)
+                             .ToList();
+
+            if (requests.Any())
+            {
+                db.PasswordResetRequests.RemoveRange(requests);
+            }
+
+            db.Users.Remove(user);
+
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }

@@ -140,9 +140,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Content\style.css" />
+    <Content Include="Content\dashboard.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Student.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -178,7 +177,7 @@
     <Content Include="Views\Staff\StaffForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Attendance\AttendanceDetails.cshtml" />
+    <Content Include="Views\Attendance\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Fee\Details.cshtml" />
@@ -211,7 +210,7 @@
     <Content Include="Views\Dashboard\Teacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Dashboard\Parent.cshtml" />
+    <Content Include="Views\Dashboard\Student.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Dashboard\Accountant.cshtml" />
@@ -287,6 +286,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Fee\Dashboard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Attendance\Report.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Attendance\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Attendance\Dashboard.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

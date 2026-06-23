@@ -56,9 +56,10 @@ namespace StudentInfoAdit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(notice);
         }
-        
+ 
         public ActionResult Details(int id)
         { 
             var notice = db.Notices.Find(id);
@@ -67,7 +68,7 @@ namespace StudentInfoAdit.Controllers
                 return HttpNotFound();
             }
             return View(notice);
-        } 
+        }
 
         public ActionResult Delete(int id)
         {
@@ -89,7 +90,8 @@ namespace StudentInfoAdit.Controllers
             var notice = db.Notices.Find(id);
             if (notice != null)
             {
-                db.Notices.Remove(notice); db.SaveChanges();
+                db.Notices.Remove(notice);
+                db.SaveChanges();
             }
             return RedirectToAction("Index");
         }

@@ -13,7 +13,7 @@ namespace StudentInfoAdit.Controllers
             var data = db.Staff.ToList();
             return View(data);
         }
-            
+       
         public ActionResult Create()
         {
             return View("StaffForm", new StaffModel());
@@ -21,7 +21,7 @@ namespace StudentInfoAdit.Controllers
 
         [HttpPost]
         public ActionResult Save(StaffModel model)
-        {
+        {   
             if (model.StaffId == 0) 
             { 
                 db.Staff.Add(model);

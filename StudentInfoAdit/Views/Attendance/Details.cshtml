@@ -15,7 +15,7 @@
         font-weight: bold;
         color: #224abe;
         margin-bottom: 25px;
-    }
+    } 
 
     .attendance-card {
         background: linear-gradient(135deg, #4e73df, #224abe);
@@ -102,6 +102,25 @@
         font-size: 16px;
         font-weight: bold;
     }
+
+    .summary-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        flex: 1;
+        background: white;
+        text-align: center;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    }
+
+        .summary-card h3 {
+            color: #224abe;
+        }
 </style>
 
 <div class="container mt-4">
@@ -109,14 +128,42 @@
         📋 Attendance Module
     </h2>
 
+    <div style="margin-bottom:20px;text-align:center;">
+
+        @if (Session["Role"] != null &&
+         Session["Role"].ToString() != "Student")
+        {
+            <a href="@Url.Action("Dashboard","Attendance")"
+               class="btn-attendance"
+               style="text-decoration:none;">
+                📊 Dashboard
+            </a>
+        }
+
+        @if (Session["Role"] != null &&
+         Session["Role"].ToString() == "Student")
+        {
+            <a href="@Url.Action(
+                    "Report",
+                    "Attendance",
+                    new { studentId = Session["StudentId"] })"
+               class="btn-attendance"
+               style="text-decoration:none;background:#17a2b8;">
+                📄 My Report
+            </a>
+        }
+    </div>
+
     @if (TempData["Error"] != null)
     {
         <div class="error-message">
             @TempData["Error"]
         </div>
     }
-
-    <div class="attendance-card">
+    
+    @if (Session["Role"] != null && Session["Role"].ToString() != "Student")
+    {
+      <div class="attendance-card">
 
         <h4>Mark Student Attendance</h4>
 
@@ -142,7 +189,7 @@
                         @class = "form-control",
                         required = "required"
                     })
-            </div>
+            </div>                  
 
             <div class="form-group">
 
@@ -199,6 +246,25 @@
                 ✓ Save Attendance
             </button>
         }
+    </div>
+    }
+
+    <div class="summary-row">
+
+        <div class="summary-card">
+            <h3>@ViewBag.TotalStudents</h3>
+            <p>Total Students</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>@ViewBag.PresentCount</h3>
+            <p>Present Today</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>@ViewBag.AbsentCount</h3>
+            <p>Absent Today</p>
+        </div>
 
     </div>
 
@@ -206,27 +272,30 @@
         📊 Attendance Records
     </h3>
 
-    @using (Html.BeginForm(
-        "AttendanceDetails",
-        "Attendance",
-        FormMethod.Get))
-    {
-        <div class="search-box">
+@if (Session["Role"] != null &&
+     Session["Role"].ToString() != "Student")
+{
+    <div class="search-box">
 
+        @using (Html.BeginForm(
+            "Details",
+            "Attendance",
+            FormMethod.Get))
+        {
             <input type="text"
                    name="searchName"
                    class="form-control"
                    placeholder="Search Student Name..."
-                   style="width:300px;
-                          display:inline-block;" />
+                   style="width:300px;display:inline-block;" />
 
             <button type="submit"
                     class="btn-attendance">
                 Search
             </button>
+        }
 
-        </div>
-    }
+    </div>
+}
 
     <div class="attendance-table">
 
@@ -240,6 +309,12 @@
                     <th>In Time</th>
                     <th>Out Time</th>
                     <th>Status</th>
+                    @if (Session["Role"] != null &&
+     Session["Role"].ToString() != "Student")
+                    {
+                       <th>Edit</th>
+                       <th>Delete</th>
+                    } 
                 </tr>
             </thead>
          
@@ -256,12 +331,11 @@
                             </td>
 
                             <td>
-                                @item.StudentName
+                                @item.Student.StudentName
                             </td>
 
                             <td>
-                                @Convert.ToDateTime(
-                                    item.AttendanceDate)
+                                @item.AttendanceDate.ToString("dd-MM-yyyy")
                             </td>
                             <td>
                                 @item.InTime
@@ -283,6 +357,29 @@
                                     </span>
                                 }
                             </td>
+                            @if (Session["Role"] != null &&
+     Session["Role"].ToString() != "Student")
+{
+    <td>
+        <a href="@Url.Action(
+                        "Edit",
+                        "Attendance",
+                        new { id = item.Id })">
+            ✏ Edit
+        </a>
+    </td>
+
+    <td>
+        <a href="@Url.Action(
+                        "Delete",
+                        "Attendance",
+                        new { id = item.Id })"
+           onclick="return confirm('Delete this attendance record?');"
+           style="color:red;">
+            🗑 Delete
+        </a>
+    </td>
+}
                         </tr>
                     }
                 }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
 using StudentInfoAdit.Models;
-
+using System.Collections.Generic;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
@@ -13,9 +13,20 @@ namespace StudentInfoAdit.Controllers
 
         public ActionResult Index()
         {
+            if (Session["Role"] != null &&
+                Session["Role"].ToString() == "Student")
+            {
+                int studentId =
+                    Convert.ToInt32(Session["StudentId"]);
+
+                return RedirectToAction(
+                    "Details",
+                    new { studentId = studentId });
+            }
+
             ViewBag.Student = null;
-            ViewBag.Fee = null;
-            ViewBag.TotalPaid = 0;
+            ViewBag.Fee = null; 
+            ViewBag.TotalPaid = 0; 
             ViewBag.Balance = 0;
             ViewBag.Message = null;
 
@@ -110,13 +121,13 @@ namespace StudentInfoAdit.Controllers
         public ActionResult AddPayment(int feeId, decimal amountPaid, string paymentMode)
         {
             var fee = db.FeeStructures.FirstOrDefault(f => f.FeeId == feeId);
-
+                   
             if (fee == null)
             {
                 TempData["Message"] = "Fee record not found";
                 return RedirectToAction("Index");
             }
-
+                    
             var payment = new FeePayment
             { 
                 FeeId = feeId,
@@ -127,13 +138,28 @@ namespace StudentInfoAdit.Controllers
        
             db.FeePayments.Add(payment);
             db.SaveChanges();
-
             TempData["Message"] = "Payment added successfully";
             return RedirectToAction("Index");
         }
 
+        private bool IsStudent()
+        {
+            return Session["Role"] != null &&
+                   Session["Role"].ToString() == "Student";
+        }
+
         public ActionResult Dashboard()
         {
+            if (IsStudent())
+            {
+                return RedirectToAction(
+                    "Details",
+                    new
+                    {
+                        studentId =
+                        Convert.ToInt32(Session["StudentId"])
+                    });
+            }
             ViewBag.TotalCollection =
                 db.FeePayments.Sum(x => (decimal?)x.AmountPaid) ?? 0;
 
@@ -167,7 +193,6 @@ namespace StudentInfoAdit.Controllers
 
             ViewBag.Months =
                 monthlyData.Select(x => x.Month).ToList();
-
             ViewBag.MonthlyAmounts =
                 monthlyData.Select(x => x.Amount).ToList();
 
@@ -193,51 +218,60 @@ namespace StudentInfoAdit.Controllers
 
         public ActionResult Details(int studentId)
         {
+            if (Session["Role"] != null &&
+                Session["Role"].ToString() == "Student")
+            {
+                studentId = Convert.ToInt32(Session["StudentId"]);
+            }
+
             var student = db.Students
-                            .FirstOrDefault(x =>
-                                x.StudentId == studentId);
+                            .FirstOrDefault(x => x.StudentId == studentId);
 
             if (student == null)
-            {
                 return HttpNotFound();
-            }
 
             var fee = db.FeeStructures
                         .Include(x => x.Payments)
-                        .FirstOrDefault(x =>
-                            x.StudentId == studentId);
-
-            if (fee == null)
-            {
-                ViewBag.Message = "No fee structure created for this student yet.";
-
-                return View("Details",
-                    new FeeViewModel
-                    {
-                        Student = student,
-                        Fee = null,
-                        TotalPaid = 0,
-                        Balance = 0
-                    });
-            }
+                        .FirstOrDefault(x => x.StudentId == studentId);
 
             decimal totalPaid = 0;
 
-            if (fee.Payments != null)
+            if (fee != null && fee.Payments != null)
             {
-                totalPaid =
-                    fee.Payments.Sum(x =>
-                        x.AmountPaid);
+                totalPaid = fee.Payments.Sum(x => x.AmountPaid);
             }
 
-            FeeViewModel model =
-                new FeeViewModel();
-            model.Student = student;
-            model.Fee = fee;
-            model.TotalPaid = totalPaid;
-            model.Balance = fee.TotalFee - totalPaid;
-            model.Payments = fee.Payments.ToList();
+            decimal balance =
+                fee != null ? (fee.TotalFee - totalPaid) : 0;
+            
+            if (fee != null && totalPaid > fee.TotalFee)
+            {
+                var errorModel = new FeeViewModel
+                {
+                    Student = student,
+                    Fee = fee,
+                    TotalPaid = totalPaid,
+                    Balance = balance,
+                    Payments = fee.Payments.ToList()
+                };
 
+                ViewBag.Error =
+                    "Payment exceeding the required amount";
+
+                return View(errorModel);
+            }
+
+            var model = new FeeViewModel
+            {
+                Student = student,
+                Fee = fee,
+                TotalPaid = totalPaid,
+                Balance = balance,
+                Payments = fee != null
+                    ? fee.Payments.ToList()
+                    : new List<FeePayment>()
+            };
+            
             return View(model);
         }
        
@@ -255,7 +289,6 @@ namespace StudentInfoAdit.Controllers
             var payments = db.FeePayments
                              .Where(x => x.FeeId == fee.FeeId)
                              .ToList();
-
             decimal totalPaid = payments.Sum(x => x.AmountPaid);
             FeeViewModel receiptModel = new FeeViewModel();
             receiptModel.Student = fee.Student;
@@ -264,6 +297,6 @@ namespace StudentInfoAdit.Controllers
             receiptModel.Balance = fee.TotalFee - totalPaid;
             receiptModel.Payments = payments;
             return View(receiptModel);
-        }
+        } 
     }
 }

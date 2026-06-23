@@ -61,6 +61,7 @@ namespace StudentInfoAdit.Controllers
                 Session["UserId"] = user.UserId;
                 Session["Username"] = user.Username;
                 Session["Role"] = user.Role;
+                Session["StudentId"] = user.StudentId;
                 Session["ERPMode"] = false;
                 return RedirectToAction("Index", "Dashboard");
             }
@@ -139,7 +140,6 @@ namespace StudentInfoAdit.Controllers
                 return RedirectToAction("Login");
 
             int userId = Convert.ToInt32(Session["UserId"]);
-
             var user = db.Users.FirstOrDefault(x => x.UserId == userId);
 
             if (user == null)
@@ -211,7 +211,6 @@ namespace StudentInfoAdit.Controllers
                 request.Username = username;
                 request.RequestDate = DateTime.Now;
                 request.IsProcessed = false;
-
                 db.PasswordResetRequests.Add(request);
                 db.SaveChanges();
             }
