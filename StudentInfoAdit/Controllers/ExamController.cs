@@ -144,9 +144,7 @@ namespace StudentInfoAdit.Controllers
 
             else
             {
-                ExamResultModel result =
-                    new ExamResultModel();
-
+                ExamResultModel result = new ExamResultModel();
                 result.ExamId = examId;
                 result.StudentId = studentId;
                 result.Subject = subject;

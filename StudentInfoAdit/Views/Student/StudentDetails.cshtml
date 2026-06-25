@@ -1,31 +1,24 @@
 ﻿@model StudentInfoAdit.Models.StudentViewModel
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: #d0b9ea;
-        color: black;
-    }
-
     .form-container {
-        width: 90%;
-        max-width: 1100px;
+        max-width: 1000px;
         margin: 40px auto;
+        font-family: Arial;
     }
 
     h2, h3 {
         text-align: center;
-        color: #224abe;
-        font-weight: bold;
+        margin-bottom: 25px;
+        color: #333;
     }
 
+    /* FORM */
     .form-container form {
-        background: linear-gradient(135deg, #60b06e, #35641b);
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        color: white;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     form table {
@@ -38,7 +31,7 @@
 
         form td:first-child {
             font-weight: bold;
-            width: 160px;
+            width: 180px;
         }
 
     input[type="text"],
@@ -47,70 +40,76 @@
     select {
         width: 100%;
         padding: 10px;
-        border-radius: 8px;
-        border: none;
+        border-radius: 6px;
+        border: 1px solid #ccc;
         outline: none;
     }
 
     input[type="file"] {
         width: 100%;
-        padding: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
         background: white;
-        border-radius: 8px;
     }
 
+    /* BUTTONS */
     input[type="submit"],
     input[type="reset"] {
-        padding: 10px 20px;
+        padding: 10px 15px;
+        color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 6px;
         font-weight: bold;
         cursor: pointer;
         margin: 5px;
+        transition: 0.3s;
     }
 
     input[type="submit"] {
-        background: #000000;
-        color: white;
+        background: #007cba;
     }
+
+        input[type="submit"]:hover {
+            background: #005f8a;
+        }
 
     input[type="reset"] {
-        background: black;
-        color: white;
+        background: #dc3545;
     }
 
-    h3 {
-        margin-top: 30px;
-    }
+        input[type="reset"]:hover {
+            background: #b52a37;
+        }
 
+    /* TABLE */
     .student-table {
         width: 100%;
-        margin-top: 20px;
         border-collapse: collapse;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-top: 20px;
     }
 
         .student-table th {
-            background: #4e73df;
+            background: linear-gradient(135deg, #43a047, #cddc39);
             color: black;
             padding: 12px;
+            text-align: center;
         }
 
         .student-table td {
-            padding: 10px;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
             text-align: center;
-            border-bottom: 1px solid #eee;
         }
 
         .student-table tr:hover {
-            background: #f1f5ff;
+            background: #f2f6ff;
         }
 
         .student-table a {
-            color: #682da4;
+            color: #007cba;
             font-weight: bold;
             text-decoration: none;
         }
@@ -118,6 +117,32 @@
             .student-table a:hover {
                 text-decoration: underline;
             }
+
+    /* ERROR */
+    .error-box {
+        color: red;
+        text-align: center;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    /* RESPONSIVE */
+    @@media (max-width: 768px) {
+        .student-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        form td {
+            display: block;
+            width: 100%;
+        }
+
+            form td:first-child {
+                margin-top: 10px;
+            }
+    }
 </style>
 
 <div class="form-container">

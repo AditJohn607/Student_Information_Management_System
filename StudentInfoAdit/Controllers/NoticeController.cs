@@ -44,7 +44,7 @@ namespace StudentInfoAdit.Controllers
 
             return View(notice);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(NoticeModel notice)
@@ -55,14 +55,13 @@ namespace StudentInfoAdit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(notice);
         }
- 
+
         public ActionResult Details(int id)
-        { 
+        {
             var notice = db.Notices.Find(id);
-            if (notice == null)
+            if(notice == null)
             {
                 return HttpNotFound();
             }

@@ -168,6 +168,15 @@ namespace StudentInfoAdit.Controllers
             ViewBag.TotalTransactions =
                 db.FeePayments.Count();
 
+            ViewBag.TotalCollection =
+                db.FeePayments.Sum(x => (decimal?)x.AmountPaid) ?? 0;
+
+            ViewBag.TotalStudents =
+                db.Students.Count();
+
+            ViewBag.TotalTransactions =
+                db.FeePayments.Count();
+
             decimal totalFee =
                 db.FeeStructures.Sum(x => (decimal?)x.TotalFee) ?? 0;
 
@@ -217,8 +226,7 @@ namespace StudentInfoAdit.Controllers
 
         public ActionResult Details(int studentId)
         {
-            if (Session["Role"] != null &&
-                Session["Role"].ToString() == "Student")
+            if (Session["Role"] != null && Session["Role"].ToString() == "Student")
             {
                 studentId = Convert.ToInt32(Session["StudentId"]);
             }

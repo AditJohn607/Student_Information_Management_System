@@ -54,8 +54,8 @@ namespace StudentInfoAdit.Controllers
                 if (vm.Student == null) return Content("Student is NULL");
 
                 if (vm.Parent == null) vm.Parent = new ParentModel();
-
                 using (var db = new StudentDBContext())
+
                 {
                     string filePath = null;
 
@@ -103,11 +103,11 @@ namespace StudentInfoAdit.Controllers
 
                         if (student != null)
                         {
-                            student.StudentName = vm.Student.StudentName;
-                            student.DateOfBirth = vm.Student.DateOfBirth;
+                            student.StudentName = vm.Student.StudentName;      
+                            student.DateOfBirth = vm.Student.DateOfBirth;      
                             student.PresentAddress = vm.Student.PresentAddress;
-                            student.StudentClass = vm.Student.StudentClass;
-                            student.MobileNumber = vm.Student.MobileNumber;
+                            student.StudentClass = vm.Student.StudentClass;    
+                            student.MobileNumber = vm.Student.MobileNumber;    
                             if (!string.IsNullOrEmpty(filePath))
                                 student.PhotoPath = filePath;
                         }
@@ -117,7 +117,6 @@ namespace StudentInfoAdit.Controllers
 
                 return RedirectToAction("StudentDetails");
             }
-
             catch (Exception ex)
             {
                 return Content(
@@ -182,7 +181,6 @@ namespace StudentInfoAdit.Controllers
             using (var db = new StudentDBContext())
             {
                 var parent = db.Parents.FirstOrDefault(x => x.StudentId == id);
-
                 if (parent == null)
                 {
                     parent = new ParentModel
@@ -220,7 +218,7 @@ namespace StudentInfoAdit.Controllers
                     parent.FMobileno = vm.Parent.FMobileno;
                     parent.MotherName = vm.Parent.MotherName;
                     parent.MOccupation = vm.Parent.MOccupation;
-                    parent.MMobileno = vm.Parent.MMobileno;                                                                                                                                     
+                    parent.MMobileno = vm.Parent.MMobileno;                                                                                                                 
                 }
                 db.SaveChanges();
             }

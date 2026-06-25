@@ -1,0 +1,177 @@
+﻿@model StudentInfoAdit.Models.AttendanceModel
+
+@{
+    ViewBag.Title = "Edit Attendance";
+}
+
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .page-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 25px;
+    }
+
+    .edit-card {
+        max-width: 800px;
+        margin: 30px auto;
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+        .edit-card label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 15px;
+        color: black;
+    }
+
+    .checkbox-box {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .btn-update {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-update:hover {
+            background-color: #218838;
+        }
+
+    .btn-back {
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+        .btn-back:hover {
+            color: white;
+            text-decoration: none;
+            background-color: #5a6268;
+        }
+</style>
+
+<div class="container">
+
+    ```
+    <h2 class="page-title">
+        ✏ Edit Attendance Record
+    </h2>
+
+    <div class="edit-card">
+
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(x => x.Id)
+
+            @Html.HiddenFor(x => x.StudentId)
+
+            <div>
+
+                <label>Student Name</label>
+
+                <input type="text"
+                       class="form-control"
+                       value="@(Model.Student != null ? Model.Student.StudentName : "")"
+                       readonly />
+            </div>
+
+            <div>
+
+                <label>Attendance Date</label>
+
+                @Html.TextBoxFor(
+                x => x.AttendanceDate,
+                "{0:yyyy-MM-dd}",
+                new
+                {
+                    @class = "form-control",
+                    type = "date",
+                    required = "required"
+                })
+
+            </div>
+
+            <div>
+
+                <label>In Time</label>
+
+                @Html.TextBoxFor(
+                x => x.InTime,
+                "{0:hh\\:mm}",
+                new
+                {
+                    @class = "form-control",
+                    type = "time"
+                })
+
+            </div>
+
+            <div>
+
+                <label>Out Time</label>
+
+                @Html.TextBoxFor(
+                x => x.OutTime,
+                "{0:hh\\:mm}",
+                new
+                {
+                    @class = "form-control",
+                    type = "time"
+                })
+
+            </div>
+
+            <div class="checkbox-box">
+
+                @Html.CheckBoxFor(x => x.IsPresent)
+
+                Present
+
+            </div>
+
+            <button type="submit"
+                    class="btn-update">
+
+                Update Attendance
+
+            </button>
+
+            <a href="@Url.Action("Details","Attendance")"
+               class="btn-back">
+                Back
+            </a>
+        }
+    </div>
+</div>

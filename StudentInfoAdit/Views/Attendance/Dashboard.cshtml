@@ -1,0 +1,214 @@
+﻿@{
+    ViewBag.Title = "Attendance Dashboard";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    .container-box {
+        max-width: 1200px;
+        margin: 40px auto;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 25px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+
+        .card h2 {
+            color: #224abe;
+            margin: 0;
+        }
+
+        .card p {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #666;
+        }
+
+    .charts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .chart-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+
+    .chart-title {
+        text-align: center;
+        font-weight: bold;
+        color: #224abe;
+        margin-bottom: 15px;
+    }
+
+    @@media(max-width:900px) {
+        .cards {
+            grid-template-columns: repeat(2,1fr);
+        }
+
+        .charts {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media(max-width:600px) {
+        .cards {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="container-box">
+
+    <div class="title">
+        Attendance Dashboard
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>@ViewBag.TotalRecords</h2>
+            <p>Total Records</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.TotalPresent</h2>
+            <p>Total Present</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.TotalAbsent</h2>
+            <p>Total Absent</p>
+        </div>
+
+        <div class="card">
+            <h2>@ViewBag.AttendancePercentage%</h2>
+            <p>Attendance Percentage</p>
+        </div>
+
+    </div>
+
+    <div class="charts">
+
+        <div class="chart-box">
+
+            <div class="chart-title">
+                Present vs Absent
+            </div>
+
+            <canvas id="pieChart"></canvas>
+
+        </div>
+
+        <div class="chart-box">
+
+            <div class="chart-title">
+                Monthly Attendance Trend
+            </div>
+            <canvas id="lineChart"></canvas>
+
+        </div>
+
+    </div>
+    ```
+
+</div>
+
+<script>
+
+    var pieCtx =
+        document.getElementById('pieChart')
+                .getContext('2d');
+
+    new Chart(pieCtx, {
+
+        type: 'pie',
+
+        data: {
+
+            labels: ['Present', 'Absent'],
+
+            datasets: [{
+
+                data: [
+                    @ViewBag.TotalPresent,
+                    @ViewBag.TotalAbsent
+                ],
+
+                backgroundColor: [
+                    '#28a745',
+                    '#dc3545'
+                ]
+            }]
+        }
+    });
+
+    var lineCtx =
+        document.getElementById('lineChart')
+                .getContext('2d');
+
+    new Chart(lineCtx, {
+
+        type: 'line',
+
+        data: {
+
+            labels:
+                @Html.Raw(
+                    Json.Encode(
+                        ViewBag.Months
+                    )
+                ),
+
+            datasets: [{
+
+                label: 'Attendance Count',
+
+                data:
+                    @Html.Raw(
+                        Json.Encode(
+                            ViewBag.MonthCounts
+                        )
+                    ),
+
+                borderColor: '#224abe',
+
+                backgroundColor:
+                    'rgba(34,74,190,0.2)',
+
+                fill: true,
+
+                tension: 0.3
+            }]
+        }
+    });
+
+</script>

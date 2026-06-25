@@ -55,12 +55,7 @@ namespace StudentInfoAdit.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateSalaryStructure(
-            int salaryId,
-            decimal basicSalary,
-            decimal hra,
-            decimal da,
-            decimal allowance)
+        public JsonResult UpdateSalaryStructure(int salaryId, decimal basicSalary, decimal hra, decimal da, decimal allowance)
         {
             var salary = db.SalaryStructures
                            .FirstOrDefault(x => x.SalaryId == salaryId);
@@ -127,10 +122,7 @@ namespace StudentInfoAdit.Controllers
         }
 
         [HttpPost]
-        public JsonResult GenerateSalary(
-            int salaryId,
-            int month,
-            int year)
+        public JsonResult GenerateSalary(int salaryId, int month, int year)
         {
             var structure =
                 db.SalaryStructures
@@ -146,9 +138,9 @@ namespace StudentInfoAdit.Controllers
             }
 
             bool exists = db.SalaryPayments.Any(x =>
-                x.SalaryId == salaryId &&
+                x.SalaryId == salaryId && 
                 x.PaymentMonth == month &&
-                x.PaymentYear == year);
+                x.PaymentYear == year);   
 
             if (exists)
             {
@@ -157,6 +149,14 @@ namespace StudentInfoAdit.Controllers
                     success = false,
                     message = "Salary already generated for this month"
                 });
+            }
+
+            if (exists)
+            {
+                return Json(new
+                {
+
+                }
             }
 
             decimal grossSalary =

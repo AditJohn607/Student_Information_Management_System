@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Student Dashboard";
+}
+
+<link href="~/Content/dashboard.css" rel="stylesheet" />
+
+<div style="position:absolute; top:15px; right:20px;">
+    <a href="@Url.Action("ChangePassword", "Account")"
+       style="padding:10px 15px;
+          background:#007cba;
+          color:white;
+          text-decoration:none;
+          border-radius:6px;">
+        Change Password
+    </a>
+</div>
+
+<div class="dashboard-container">
+
+    <h1>Student Dashboard</h1>
+    <div style="position:absolute; top:15px; left:20px;">
+        <a href="@Url.Action("Logout", "Account")"
+           style="padding:10px 15px;
+              background:#ff7500;
+              color:white;
+              text-decoration:none;
+              border-radius:6px;">
+            Logout
+        </a>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">My Child</div>
+                <div class="panel-body">
+                    <h2>Student</h2>
+                    <p>View child details</p>
+                    <a href="@Url.Action("StudentDetails", "Student")" class="dashboard-btn">VIEW PROFILE</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Attendance</div>
+                <div class="panel-body">
+                    <h2>@ViewBag.AttendanceCount</h2>
+                    <p>Attendance Summary</p>
+                    <a href="@Url.Action("Details", "Attendance")" class="dashboard-btn">VIEW</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Fees</div>
+                <div class="panel-body">
+                    <h2>@ViewBag.FeeStatus</h2>
+                    <p>Fee Status</p>
+                    <a href="@Url.Action("Index", "Fee")" class="dashboard-btn">VIEW</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Notices</div>
+                <div class="panel-body">
+                    <h2>@ViewBag.Notices</h2>
+                    <p>School Announcements</p>
+                    <a href="@Url.Action("Index", "Notice")" class="dashboard-btn">OPEN</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Assignments</div>
+                <div class="panel-body">
+                    <p>School Assignments</p>
+                    <a href="@Url.Action("Index", "Assignment")" class="dashboard-btn">OPEN</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Time Table</div>
+                <div class="panel-body">
+                    <p>To view Time Table</p>
+                    <a href="@Url.Action("Index", "Timetable")" class="dashboard-btn">OPEN</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

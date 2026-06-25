@@ -51,7 +51,7 @@ namespace StudentInfoAdit.Controllers
             if (alreadyIssued)
             {
                 ModelState.AddModelError("", "This student already has an issued book.");
-            }
+            }    
              
             var book = db.Books.FirstOrDefault(x => x.BookId == model.BookId);
             if (book == null)
