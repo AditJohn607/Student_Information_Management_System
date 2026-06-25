@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace StudentInfoAdit.Controllers
 {
-    public class TimetableController : Controller
+    public class TimetableController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 
@@ -32,18 +32,18 @@ namespace StudentInfoAdit.Controllers
 
             ViewBag.ClassList = new List<SelectListItem>
 {
-    new SelectListItem { Text = "1st", Value = "1st" },
-    new SelectListItem { Text = "2nd", Value = "2nd" },
-    new SelectListItem { Text = "3rd", Value = "3rd" },
-    new SelectListItem { Text = "4th", Value = "4th" },
-    new SelectListItem { Text = "5th", Value = "5th" },
-    new SelectListItem { Text = "6th", Value = "6th" },
-    new SelectListItem { Text = "7th", Value = "7th" },
-    new SelectListItem { Text = "8th", Value = "8th" },
-    new SelectListItem { Text = "9th", Value = "9th" },
+    new SelectListItem { Text = "1st", Value = "1st" },  
+    new SelectListItem { Text = "2nd", Value = "2nd" },  
+    new SelectListItem { Text = "3rd", Value = "3rd" },  
+    new SelectListItem { Text = "4th", Value = "4th" },  
+    new SelectListItem { Text = "5th", Value = "5th" },  
+    new SelectListItem { Text = "6th", Value = "6th" },  
+    new SelectListItem { Text = "7th", Value = "7th" },  
+    new SelectListItem { Text = "8th", Value = "8th" },  
+    new SelectListItem { Text = "9th", Value = "9th" },  
     new SelectListItem { Text = "10th", Value = "10th" },
     new SelectListItem { Text = "11th", Value = "11th" },
-    new SelectListItem { Text = "12th", Value = "12th" }
+    new SelectListItem { Text = "12th", Value = "12th" } 
 };
 
             if (string.IsNullOrEmpty(selectedClass))
@@ -87,13 +87,12 @@ namespace StudentInfoAdit.Controllers
         public ActionResult Delete(int id)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
-                return RedirectToAction("Login", "Account");
             var data = db.Timetables.FirstOrDefault(x => x.TimetableId == id);
             if (data != null)
             {
                 db.Timetables.Remove(data);
                 db.SaveChanges();
-            }          
+            }           
             return RedirectToAction("Index");
         }
                                                                   
@@ -135,13 +134,13 @@ namespace StudentInfoAdit.Controllers
             };
 
             ViewBag.Days = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "Monday", Value = "Monday" },
-        new SelectListItem { Text = "Tuesday", Value = "Tuesday" },
-        new SelectListItem { Text = "Wednesday", Value = "Wednesday" },
-        new SelectListItem { Text = "Thursday", Value = "Thursday" },
-        new SelectListItem { Text = "Friday", Value = "Friday" }
-    };
+        { 
+            new SelectListItem { Text = "Monday", Value = "Monday" },
+            new SelectListItem { Text = "Tuesday", Value = "Tuesday" },
+            new SelectListItem { Text = "Wednesday", Value = "Wednesday" },
+            new SelectListItem { Text = "Thursday", Value = "Thursday" },
+            new SelectListItem { Text = "Friday", Value = "Friday" }
+        };
 
             return View();
         }

@@ -3,7 +3,7 @@
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class ProfileController : Controller 
+    public class ProfileController : BaseController 
     {
         public ActionResult Index()
         {

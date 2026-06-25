@@ -9,7 +9,7 @@ using System.Data.Entity;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class AssignmentController : Controller
+    public class AssignmentController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 

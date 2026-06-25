@@ -6,7 +6,7 @@ using StudentInfoAdit.Helpers;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 

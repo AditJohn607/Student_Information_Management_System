@@ -101,34 +101,23 @@ namespace StudentInfoAdit.Models
     {
         [Key]
         public int FeeId { get; set; }
-
         public int StudentId { get; set; }
-
         public string AcademicYear { get; set; }
-
         public decimal TotalFee { get; set; }
-
         public virtual StudentModel Student { get; set; }
-
         public virtual ICollection<FeePayment> Payments { get; set; }
     }
-
 
     [Table("FeePayment")]
     public class FeePayment
     {
         [Key]
         public int PaymentId { get; set; }
-
         [ForeignKey("FeeStructure")]
         public int FeeId { get; set; }
-
         public decimal AmountPaid { get; set; }
-
         public DateTime? PaymentDate { get; set; }
-
         public string PaymentMode { get; set; }
-  
         public virtual FeeStructure FeeStructure { get; set; }
     }
 
@@ -138,15 +127,10 @@ namespace StudentInfoAdit.Models
         {
             Payments = new List<FeePayment>();
         }
-
         public StudentModel Student { get; set; }
-
         public FeeStructure Fee { get; set; }
-
         public decimal TotalPaid { get; set; }
-
         public decimal Balance { get; set; }
-
         public List<FeePayment> Payments { get; set; }
     }
 
@@ -322,7 +306,7 @@ namespace StudentInfoAdit.Models
 
     [Table("Timetable")]
     public class TimetableModel
-    {
+    { 
         [Key]
         public int TimetableId { get; set; }
 
@@ -410,4 +394,66 @@ namespace StudentInfoAdit.Models
 
         public bool IsProcessed { get; set; }
     }
+
+    [Table("SalaryStructure")]
+    public class SalaryStructureModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SalaryId { get; set; }
+
+        public int StaffId { get; set; }
+
+        public decimal BasicSalary { get; set; }
+
+        public decimal HRA { get; set; }
+
+        public decimal DA { get; set; }
+
+        public decimal OtherAllowance { get; set; }
+
+        [ForeignKey("StaffId")]
+        public virtual StaffModel Staff { get; set; }
+    }
+
+    [Table("SalaryPayment")]
+    public class SalaryPaymentModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PaymentId { get; set; }
+
+        public int SalaryId { get; set; }
+
+        public int PaymentMonth { get; set; }
+
+        public int PaymentYear { get; set; }
+
+        public decimal GrossSalary { get; set; }
+
+        public DateTime PaidDate { get; set; }
+
+        [ForeignKey("SalaryId")]
+        public virtual SalaryStructureModel SalaryStructure { get; set; }
+    }
+
+    [Table("SalarySlip")]
+    public class SalarySlipModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SlipId { get; set; }
+
+        public int PaymentId { get; set; }
+
+        public DateTime GeneratedDate { get; set; }
+
+        public string PdfPath { get; set; }
+
+        public string Remarks { get; set; }
+
+        [ForeignKey("PaymentId")]
+        public virtual SalaryPaymentModel SalaryPayment { get; set; }
+    }
 }
+ 

@@ -7,7 +7,7 @@ using StudentInfoAdit.Models;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class ExamController : Controller
+    public class ExamController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 
@@ -76,19 +76,15 @@ namespace StudentInfoAdit.Controllers
 
         public ActionResult Delete(int id)
         {
-            var exam = db.Exams
-                         .FirstOrDefault(x => x.ExamId == id);
+            var exam = db.Exams.FirstOrDefault(x => x.ExamId == id);
 
             if (exam != null)
             {
                 var results = db.ExamResults
                                 .Where(x => x.ExamId == id)
                                 .ToList();
-
                 db.ExamResults.RemoveRange(results);
-
                 db.Exams.Remove(exam);
-
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -97,8 +93,7 @@ namespace StudentInfoAdit.Controllers
         [HttpGet]
         public ActionResult SaveMarks(int examId, int studentId)
         {
-            var student = db.Students
-                            .FirstOrDefault(x => x.StudentId == studentId);
+            var student = db.Students.FirstOrDefault(x => x.StudentId == studentId);
 
             ViewBag.Student = student;
             ViewBag.StudentId = studentId;
@@ -136,8 +131,7 @@ namespace StudentInfoAdit.Controllers
             int marksObtained,
             int maxMarks)
         {
-            var existing =
-                db.ExamResults.FirstOrDefault(x =>
+            var existing = db.ExamResults.FirstOrDefault(x =>
                     x.ExamId == examId &&
                     x.StudentId == studentId &&
                     x.Subject == subject);
@@ -158,7 +152,6 @@ namespace StudentInfoAdit.Controllers
                 result.Subject = subject;
                 result.MarksObtained = marksObtained;
                 result.MaxMarks = maxMarks;
-
                 db.ExamResults.Add(result);
             }
 
@@ -210,11 +203,11 @@ namespace StudentInfoAdit.Controllers
             if (percentage >= 90)
                 grade = "A+";
             else if (percentage >= 80)
-                grade = "A";
-            else if (percentage >= 70)
-                grade = "B";
+                grade = "A"; 
+            else if (percentage >= 70)                                
+                grade = "B"; 
             else if (percentage >= 60)
-                grade = "C";
+                grade = "C"; 
             else
                 grade = "D";
 

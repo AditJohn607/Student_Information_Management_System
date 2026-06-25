@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class FeeController : Controller
+    public class FeeController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 
@@ -41,9 +41,8 @@ namespace StudentInfoAdit.Controllers
                 ViewBag.Message = "Please enter student name";
                 return View("Index"); 
             }
-
+            
             int id;
-
             var student = db.Students.FirstOrDefault(s =>
                 s.StudentName.Contains(studentName));
 

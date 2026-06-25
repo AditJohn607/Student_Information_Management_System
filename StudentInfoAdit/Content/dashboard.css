@@ -11,7 +11,7 @@
     }
 
     body {
-        background: var(--wp-bg);
+        background: #feff80;
         font-family: "Roboto", "Segoe UI", Arial, sans-serif;
     }
 
@@ -40,8 +40,7 @@
     .col-md-4 {
         flex: 0 0 calc(33.333% - 20px);
     }
-
-    /* PANEL STYLE */
+    
     .panel {
         background: white;
         border: 1px solid #e0e6e0;

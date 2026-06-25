@@ -29,6 +29,7 @@
 
     .dashboard-container {
         position: relative;
+        bottom: 80px;
         z-index: 1;
         max-width: 2000px;
         margin: 60px auto;
@@ -52,7 +53,7 @@
     }
 
     .col-md-4 {
-        flex: 0 0 calc(20% - 20px);
+        flex: 0 0 calc(33.33% - 20px);
     }
 
     .panel {
@@ -64,10 +65,10 @@
         overflow: hidden;
     }
 
-            .panel:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-            }
+    .panel:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    }        
 
         .panel-heading {
             background: linear-gradient(135deg, #43a047, #cddc39);
@@ -94,10 +95,10 @@
             transition: 0.3s;
         }
 
-            .dashboard-btn:hover {
-                transform: scale(1.03);
-                box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            }
+        .dashboard-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
 
         @@media (max-width: 992px) {
             .col-md-4 {
@@ -116,7 +117,7 @@
         }
 </style>
 
-<div style="position:absolute; bottom:50px; left:20px;">
+<div style="position:absolute; bottom:40px; left:20px;">
     <a href="@Url.Action("Admin", "Dashboard")"
        style="padding:10px 15px;
               background:#1d80ba;
@@ -127,7 +128,7 @@
     </a>
 </div>
 
-<div style="position:absolute; bottom:50px; right:20px;">
+<div style="position:absolute; bottom:40px; right:20px;">
     <a href="@Url.Action("index", "User")"
        style="padding: 10px 15px; background: #ff5e00; color: white; text-decoration: none; border-radius: 6px;">
         new user+
@@ -203,6 +204,16 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">Salary Module</div>
+                    <div class="panel-body">
+                        <p>Manage Salary of Employees</p>
+                        <a href="@Url.Action("Index", "Salary")" class="dashboard-btn">OPEN</a>
+                    </div>
+                </div>
+            </div>
         }
 
         @if (role == "Admin" || role == "Teacher")
@@ -245,10 +256,10 @@
         {
             <div class="col-md-4">
                 <div class="panel">
-                    <div class="panel-heading">Time-table Module</div>
+                    <div class="panel-heading">Assignment Module</div>
                     <div class="panel-body">
-                        <p>Time-table</p>
-                        <a href="@Url.Action("Index", "Timetable")" class="dashboard-btn">OPEN</a>
+                        <p>For Assignments</p>
+                        <a href="@Url.Action("Index", "Assignment")" class="dashboard-btn">OPEN</a>
                     </div>
                 </div>
             </div>
@@ -258,10 +269,10 @@
         {
             <div class="col-md-4">
                 <div class="panel">
-                    <div class="panel-heading">Assignment Module</div>
+                    <div class="panel-heading">Time-table Module</div>
                     <div class="panel-body">
-                        <p>For Assignments</p>
-                        <a href="@Url.Action("Index", "Assignment")" class="dashboard-btn">OPEN</a>
+                        <p>Time-table</p>
+                        <a href="@Url.Action("Index", "Timetable")" class="dashboard-btn">OPEN</a>
                     </div>
                 </div>
             </div>

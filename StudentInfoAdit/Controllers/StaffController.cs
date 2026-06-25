@@ -5,7 +5,7 @@ using StudentInfoAdit.Models;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class StaffController : Controller
+    public class StaffController : BaseController
     {
         StudentDBContext db = new StudentDBContext();
         public ActionResult StaffDetails()
@@ -18,7 +18,7 @@ namespace StudentInfoAdit.Controllers
         {
             return View("StaffForm", new StaffModel());
         }
-
+        
         [HttpPost]
         public ActionResult Save(StaffModel model)
         {   
@@ -26,6 +26,7 @@ namespace StudentInfoAdit.Controllers
             { 
                 db.Staff.Add(model);
             }
+
             else
             { 
                 var data = db.Staff.FirstOrDefault(x => x.StaffId == model.StaffId);
@@ -37,6 +38,7 @@ namespace StudentInfoAdit.Controllers
                     data.DateJoined = model.DateJoined;
                 }
             }
+
             db.SaveChanges();
             return RedirectToAction("StaffDetails");
         }

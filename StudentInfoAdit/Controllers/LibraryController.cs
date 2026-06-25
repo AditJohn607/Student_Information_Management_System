@@ -7,7 +7,7 @@ using StudentInfoAdit.Models;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class LibraryController : Controller
+    public class LibraryController : BaseController
     {    
         private readonly StudentDBContext db = new StudentDBContext();
  
@@ -62,7 +62,7 @@ namespace StudentInfoAdit.Controllers
             else if (book.AvailableCopies <= 0)
             {
                 ModelState.AddModelError("", "No copies available.");
-            }
+            }  
 
             if (!ModelState.IsValid)
             {   
@@ -74,7 +74,7 @@ namespace StudentInfoAdit.Controllers
                         Text = s.StudentName
                     })
                     .ToList();
-
+                
                 model.BookList = db.Books
                     .Where(b => b.AvailableCopies > 0)
                     .OrderBy(b => b.BookName)
@@ -101,7 +101,7 @@ namespace StudentInfoAdit.Controllers
             db.SaveChanges();
             TempData["Success"] = "Book issued successfully.";
             return RedirectToAction("IssuedBooks");
-        }
+        }   
 
         public ActionResult IssuedBooks()
         {

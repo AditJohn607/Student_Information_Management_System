@@ -27,10 +27,14 @@ namespace StudentInfoAdit.Models
         public DbSet<AssignmentModel> Assignments { get; set; }
         public DbSet<AssignmentSubmissionModel> AssignmentSubmissions { get; set; }
         public DbSet<PasswordResetRequestModel> PasswordResetRequests { get; set; }
+        public DbSet<SalaryStructureModel> SalaryStructures { get; set; }
+        public DbSet<SalaryPaymentModel> SalaryPayments { get; set; }
+        public DbSet<SalarySlipModel> SalarySlips { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.Entity<StudentModel>()
                 .HasOptional(s => s.Parent)
                 .WithRequired(p => p.Student);

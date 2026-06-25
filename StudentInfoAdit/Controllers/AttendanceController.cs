@@ -7,7 +7,7 @@ using StudentInfoAdit.Models;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class AttendanceController : Controller
+    public class AttendanceController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 

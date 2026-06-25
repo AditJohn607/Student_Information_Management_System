@@ -6,7 +6,7 @@ using StudentInfoAdit.Models;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class NoticeController : Controller
+    public class NoticeController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
 
@@ -37,7 +37,6 @@ namespace StudentInfoAdit.Controllers
         public ActionResult Edit(int id)
         {
             var notice = db.Notices.Find(id);
-
             if (notice == null)
             {
                 return HttpNotFound();
@@ -89,12 +88,13 @@ namespace StudentInfoAdit.Controllers
         {
             var notice = db.Notices.Find(id);
             if (notice != null)
-            {
+            { 
                 db.Notices.Remove(notice);
                 db.SaveChanges();
             }
+
             return RedirectToAction("Index");
-        }
+        } 
 
         protected override void Dispose(bool disposing) 
         {
@@ -104,7 +104,6 @@ namespace StudentInfoAdit.Controllers
             }
             base.Dispose(disposing);
         }
-
     }
 }
 

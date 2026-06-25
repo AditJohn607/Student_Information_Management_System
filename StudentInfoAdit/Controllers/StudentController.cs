@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class StudentController : Controller
+    public class StudentController : BaseController
     {
         private bool IsERPEnabled()
         {
@@ -78,16 +78,15 @@ namespace StudentInfoAdit.Controllers
 
                         string fileName = Guid.NewGuid() + ext;
                         string fullPath = Path.Combine(folder, fileName);
-
+                        
                         PhotoFile.SaveAs(fullPath);
-
                         filePath = "/Uploads/Students/" + fileName;
                     }
 
                     if (vm.Student.StudentId == 0)
                     {
-                        vm.Student.PhotoPath = filePath;
 
+                        vm.Student.PhotoPath = filePath;
                         db.Students.Add(vm.Student);
                         db.SaveChanges();
 
@@ -118,6 +117,7 @@ namespace StudentInfoAdit.Controllers
 
                 return RedirectToAction("StudentDetails");
             }
+
             catch (Exception ex)
             {
                 return Content(
@@ -166,7 +166,7 @@ namespace StudentInfoAdit.Controllers
                         if (System.IO.File.Exists(path))
                             System.IO.File.Delete(path);
                     }
-                  
+                     
                     db.Students.Remove(student);
                 }
                 var parent = db.Parents.FirstOrDefault(x => x.StudentId == id);
@@ -212,6 +212,7 @@ namespace StudentInfoAdit.Controllers
                 {
                     db.Parents.Add(vm.Parent);
                 }
+
                 else
                 {
                     parent.FatherName = vm.Parent.FatherName;

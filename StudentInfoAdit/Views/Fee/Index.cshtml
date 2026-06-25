@@ -122,14 +122,16 @@
             <a href="@Url.Action("Create","Fee")" class="nav-btn">
                 ➕ Create Fee
             </a>
- 
+           
             <a href="@Url.Action("Dashboard","Fee")" class="nav-btn">
                  Dashboard
             </a>
+
            @if (role == "Admin") { 
             <a href="@Url.Action("ERP","Dashboard")" class="nav-btn">
                 <-Home
             </a>
+               
            }
            @if (role == "Accountant")
 {

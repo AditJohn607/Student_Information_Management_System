@@ -5,7 +5,7 @@ using StudentInfoAdit.Models;
 namespace StudentInfoAdit.Controllers
 {
     [Authorize]
-    public class DashboardController : Controller
+    public class DashboardController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
         public ActionResult Index()
@@ -57,6 +57,7 @@ namespace StudentInfoAdit.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
             Session["ERPMode"] = false;
             return RedirectToAction("Admin");
         }
@@ -78,7 +79,6 @@ namespace StudentInfoAdit.Controllers
             ViewBag.PendingResetCount =
                 db.PasswordResetRequests
                   .Count(x => x.IsProcessed == false);
-
             return View();
         }
 

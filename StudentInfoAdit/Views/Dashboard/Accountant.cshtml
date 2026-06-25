@@ -4,7 +4,7 @@
 
 <link href="~/Content/dashboard.css" rel="stylesheet" />
 
-<div style="position:absolute; bottom:15px; left:20px;">
+<div style="position:absolute; top:15px; right:20px;">
     <a href="@Url.Action("ChangePassword", "Account")"
        style="padding: 10px 15px; background: #ff5e00; color: white; text-decoration: none; border-radius: 6px;">
         Change Password
@@ -74,6 +74,16 @@
                     <h2>@ViewBag.TotalStudents</h2>
                     <p>Fee Records by Student</p>
                     <a href="@Url.Action("StudentDetails", "Student")" class="dashboard-btn">VIEW</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">Salary Module</div>
+                <div class="panel-body">
+                    <p>Manage Salary of Employees</p>
+                    <a href="@Url.Action("Index", "Salary")" class="dashboard-btn">VIEW</a>
                 </div>
             </div>
         </div>
