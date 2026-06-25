@@ -23,7 +23,7 @@ namespace StudentInfoAdit.Controllers
         public ActionResult Save(StaffModel model)
         {   
             if (model.StaffId == 0) 
-            { 
+            {
                 db.Staff.Add(model);
             }
 
@@ -38,7 +38,7 @@ namespace StudentInfoAdit.Controllers
                     data.DateJoined = model.DateJoined;
                 }
             }
-
+            
             db.SaveChanges();
             return RedirectToAction("StaffDetails");
         }

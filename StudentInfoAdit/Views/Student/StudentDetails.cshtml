@@ -1,5 +1,13 @@
 ﻿@model StudentInfoAdit.Models.StudentViewModel
 
+@{
+    string role = Session["Role"] != null ? Session["Role"].ToString() : "";
+}
+
+@if (role == "Student")
+{
+    Response.Redirect(Url.Action("StudentDetails", "Student"));
+}
 <style>
     .form-container {
         max-width: 1000px;

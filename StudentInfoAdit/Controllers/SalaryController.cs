@@ -7,6 +7,7 @@ using StudentInfoAdit.Models;
 
 namespace StudentInfoAdit.Controllers
 {
+    [Authorize]
     public class SalaryController : BaseController
     {
         private StudentDBContext db = new StudentDBContext();
@@ -15,7 +16,7 @@ namespace StudentInfoAdit.Controllers
         {
             return View();
         }
-
+        
         public ActionResult SalarySlip(int paymentId)
         {
             var payment = db.SalaryPayments

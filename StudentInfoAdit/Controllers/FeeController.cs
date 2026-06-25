@@ -112,7 +112,6 @@ namespace StudentInfoAdit.Controllers
                 "StudentId",
                 "StudentName"
             );
-
             return View();
         }
 
@@ -126,7 +125,7 @@ namespace StudentInfoAdit.Controllers
                 TempData["Message"] = "Fee record not found";
                 return RedirectToAction("Index");
             }
-                    
+                  
             var payment = new FeePayment
             { 
                 FeeId = feeId,

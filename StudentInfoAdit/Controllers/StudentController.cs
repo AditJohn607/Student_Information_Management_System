@@ -21,34 +21,71 @@ namespace StudentInfoAdit.Controllers
         }
 
         public ActionResult StudentDetails()
-        {
-            using (var db = new StudentDBContext())
-            {
-                var classList = new List<SelectListItem>
 {
-    new SelectListItem { Text = "5", Value = "5" },
-    new SelectListItem { Text = "6", Value = "6" },
-    new SelectListItem { Text = "7", Value = "7" },
-    new SelectListItem { Text = "8", Value = "8" },
-    new SelectListItem { Text = "9", Value = "9" },
-    new SelectListItem { Text = "10", Value = "10"}
-};
+    using (var db = new StudentDBContext())
+    {
+        string role = Session["Role"] != null
+    ? Session["Role"].ToString()
+    : "";
 
-                var model = new StudentViewModel
-                {
-                    Student = new StudentModel(),
-                    Parent = new ParentModel(),
-                    StudentList = db.Students.ToList(),
-                    ClassList = classList
-                };
+        if (role == "Student")
+        {
+            int studentId = Convert.ToInt32(Session["StudentId"]);
 
-                return View(model);
+            var student = db.Students
+                            .FirstOrDefault(x => x.StudentId == studentId);
+
+            if (student == null)
+            {
+                return Content("Student record not found.");
             }
+
+            var parent = db.Parents
+                           .FirstOrDefault(x => x.StudentId == studentId);
+
+            var model = new StudentViewModel
+            {
+                Student = student,
+                Parent = parent != null ? parent : new ParentModel()
+            };
+
+            return View("StudentProfile", model);
         }
+
+        var classList = new List<SelectListItem>
+        {
+            new SelectListItem { Text = "5", Value = "5" },
+            new SelectListItem { Text = "6", Value = "6" },
+            new SelectListItem { Text = "7", Value = "7" },
+            new SelectListItem { Text = "8", Value = "8" },
+            new SelectListItem { Text = "9", Value = "9" },
+            new SelectListItem { Text = "10", Value = "10" }
+        };
+
+        var modelAdminTeacher = new StudentViewModel
+        {
+            Student = new StudentModel(),
+            Parent = new ParentModel(),
+            StudentList = db.Students.ToList(),
+            ClassList = classList
+        };
+
+        return View(modelAdminTeacher);
+    }
+}
 
         [HttpPost]
         public ActionResult Save(StudentViewModel vm, HttpPostedFileBase PhotoFile)
         {
+            string role = Session["Role"] != null
+    ? Session["Role"].ToString()
+    : "";
+
+    if (role == "Student")
+    {
+        return RedirectToAction("StudentDetails");
+    }
+
             try
             {
                 if (vm.Student == null) return Content("Student is NULL");
@@ -130,7 +167,16 @@ namespace StudentInfoAdit.Controllers
         }
        
         public ActionResult Edit(int id)
-        { 
+        {
+            string role = Session["Role"] != null
+    ? Session["Role"].ToString()
+    : "";
+
+    if (role == "Student")
+    {
+        return RedirectToAction("StudentDetails");
+    }
+
             using (var db = new StudentDBContext())
             {
                 var model = new StudentViewModel
@@ -153,7 +199,16 @@ namespace StudentInfoAdit.Controllers
         }
 
         public ActionResult Delete(int id)
-        { 
+        {
+            string role = Session["Role"] != null
+    ? Session["Role"].ToString()
+    : "";
+
+    if (role == "Student")
+    {
+        return RedirectToAction("StudentDetails");
+    }
+
             using (var db = new StudentDBContext())
             {
                 var student = db.Students.FirstOrDefault(x => x.StudentId == id);
@@ -178,6 +233,19 @@ namespace StudentInfoAdit.Controllers
        
         public ActionResult ParentDetails(int id)
         {
+            string role = Session["Role"] != null
+    ? Session["Role"].ToString()
+    : "";
+
+            if (role == "Student")
+            {
+                int studentId = Convert.ToInt32(Session["StudentId"]);
+
+                if (id != studentId)
+                {
+                    return RedirectToAction("StudentDetails");
+                }
+            }
             using (var db = new StudentDBContext())
             {
                 var parent = db.Parents.FirstOrDefault(x => x.StudentId == id);

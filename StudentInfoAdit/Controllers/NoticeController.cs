@@ -77,7 +77,7 @@ namespace StudentInfoAdit.Controllers
                 db.Notices.Remove(notice);
                 db.SaveChanges();
             }
-
+            
             return RedirectToAction("Index");
         }
 

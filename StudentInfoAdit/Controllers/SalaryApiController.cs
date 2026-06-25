@@ -151,14 +151,6 @@ namespace StudentInfoAdit.Controllers
                 });
             }
 
-            if (exists)
-            {
-                return Json(new
-                {
-
-                }
-            }
-
             decimal grossSalary =
                 structure.BasicSalary +
                 structure.HRA +
