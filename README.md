@@ -50,22 +50,26 @@ The **Student Information Management System (SIMS)** is a centralized platform t
 - Fee receipt generation
 - Dashboard analytics (monthly collection, payment mode distribution)
 
-### 6. Exam Module
+### 7. Salary Module
+- Manages salary of employees
+- Generates salary slip 
+
+### 7. Exam Module
 - Exam scheduling
 - Marks entry and result generation
 
-### 7. Library Module
+### 8. Library Module
 - Book issue and return system
 - Fine calculation (if applicable)
 
-### 8. Notice Module
+### 9. Notice Module
 - Admin notice posting system
 - Student notifications
 
-### 9. Timetable Module
+### 10. Timetable Module
 - Class schedule management
 
-### 10. Assignment Module
+### 11. Assignment Module
 - Assignment upload and submission tracking
 
 ---
